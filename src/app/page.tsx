@@ -1,3 +1,8 @@
+'use client';
+
+import AugmentButton from "@/components/AugmentButton";
+import ClientThemeToggle from "@/components/ClientThemeToggle";
+
 export default function Home() {
   return (
     <div className="landing-page">
@@ -12,6 +17,7 @@ export default function Home() {
             <a href="#features" className="nav-link">Features</a>
             <a href="#about" className="nav-link">About</a>
             <a href="#contact" className="nav-link">Contact</a>
+            <ClientThemeToggle />
           </nav>
         </div>
       </header>
@@ -26,7 +32,7 @@ export default function Home() {
             Build amazing experiences with modern web technologies
           </p>
           <div className="hero-buttons">
-            <button className="btn-primary">Get Started</button>
+            <AugmentButton />
             <button className="btn-secondary">Learn More</button>
           </div>
         </div>
