@@ -43,9 +43,9 @@ export function getOpenAPISpec(baseUrl?: string) {
   return {
     openapi: '3.0.0',
     info: {
-      title: 'Apex API',
+      title: 'Hyperapex API',
       version: '1.0.0',
-      description: 'Apex API Documentation - Production-ready REST API with authentication, validation, and comprehensive features',
+      description: 'Hyperapex API Documentation - Production-ready REST API with authentication, validation, and comprehensive features',
       contact: {
         name: 'API Support',
       },

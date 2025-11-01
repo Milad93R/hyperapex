@@ -17,7 +17,7 @@ A modern full-stack application built with Next.js 15, featuring modular archite
 ## 📁 Project Structure
 
 ```
-apex/
+hyperapex/
 ├── src/
 │   ├── app/                 # Next.js app directory
 │   │   ├── api/             # API routes
@@ -71,7 +71,7 @@ apex/
 1. **Clone and install dependencies:**
    ```bash
    git clone <repository-url>
-   cd apex
+   cd hyperapex
    npm install
    ```
 
