@@ -1,15 +1,17 @@
-# Apex - Next.js + NestJS Full-Stack Application
+# Hyperapex - Next.js Full-Stack Application
 
-A modern full-stack application combining Next.js frontend with NestJS backend, featuring ShadCN UI components, custom CSS styling, and Docker Compose for development with hot reload.
+A modern full-stack application built with Next.js 15, featuring modular architecture, ShadCN UI components, API authentication, Swagger documentation, Telegram integration, and Vercel deployment.
 
 ## 🚀 Features
 
-- **Frontend**: Next.js 15 with TypeScript
-- **Backend**: NestJS with TypeScript (integrated within the same project)
-- **UI Components**: ShadCN UI (configured without Tailwind usage)
-- **Styling**: Custom CSS system with CSS variables
-- **Development**: Docker Compose with hot reload for both frontend and backend
-- **API Integration**: Seamless communication between frontend and backend
+- **Frontend**: Next.js 15 with TypeScript and modular component architecture
+- **Backend**: Next.js API routes with authentication and security features
+- **UI Components**: ShadCN UI with custom CSS styling
+- **Authentication**: API key authentication, Swagger UI basic auth, Debug secret headers
+- **API Documentation**: Interactive Swagger UI with OpenAPI 3.0 specification
+- **Monitoring**: Request monitoring, debug logging, global error handling
+- **Telegram Integration**: Send messages and formatted logs via Telegram Bot API
+- **Deployment**: Automated deployment script for Vercel
 
 ## 📁 Project Structure
 
@@ -17,14 +19,21 @@ A modern full-stack application combining Next.js frontend with NestJS backend, 
 apex/
 ├── src/
 │   ├── app/                 # Next.js app directory
+│   │   ├── api/             # API routes
+│   │   │   ├── route.ts    # Root API endpoint
+│   │   │   ├── docs/       # Swagger UI
+│   │   │   ├── openapi.json/ # OpenAPI spec
+│   │   │   └── telegram/   # Telegram endpoints
 │   │   ├── globals.css      # Global styles with CSS variables
 │   │   ├── layout.tsx       # Root layout
-│   │   └── page.tsx         # Homepage with API integration demo
-│   ├── backend/             # NestJS backend
-│   │   ├── controllers/     # API controllers
-│   │   ├── services/        # Business logic services
-│   │   ├── modules/         # NestJS modules
-│   │   └── main.ts          # Backend entry point
+│   │   └── page.tsx         # Homepage
+│   ├── backend/             # Backend utilities (modular)
+│   │   ├── config/         # Configuration modules
+│   │   ├── guards/         # Authentication guards
+│   │   ├── middleware/     # Request middleware
+│   │   ├── handlers/       # Error handlers
+│   │   ├── services/       # Services (Telegram, etc.)
+│   │   └── utils/          # Utility functions
 │   ├── components/          # React components organized by feature
 │   │   ├── layout/          # Layout components
 │   │   │   └── Header/     # Header component (with index.ts)
@@ -56,7 +65,7 @@ apex/
 - Docker and Docker Compose
 - Git
 
-### Local Development (without Docker)
+### Local Development
 
 1. **Clone and install dependencies:**
    ```bash
@@ -65,23 +74,21 @@ apex/
    npm install
    ```
 
-2. **Run both frontend and backend:**
+2. **Create environment file:**
    ```bash
-   npm run dev:all
+   cp .env.example .env
+   # Edit .env with your values
    ```
 
-   Or run them separately:
+3. **Run development server:**
    ```bash
-   # Terminal 1 - Frontend (Next.js)
    npm run dev
-
-   # Terminal 2 - Backend (NestJS)
-   npm run dev:backend
    ```
 
-3. **Access the application:**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:3001
+4. **Access the application:**
+   - Frontend: http://localhost:3168
+   - API: http://localhost:3168/api
+   - Swagger UI: http://localhost:3168/api/docs
 
 ### Docker Development (with Hot Reload)
 
@@ -100,20 +107,21 @@ The Docker setup includes volume mounting for hot reload, so changes to your cod
 
 ```bash
 # Development
-npm run dev              # Start Next.js frontend only
-npm run dev:backend      # Start NestJS backend only
-npm run dev:all          # Start both frontend and backend
+npm run dev              # Start Next.js development server
 
 # Building
-npm run build            # Build Next.js frontend
-npm run build:backend    # Build NestJS backend
+npm run build            # Build Next.js application
 
 # Production
-npm run start            # Start Next.js in production
-npm run start:backend    # Start NestJS in production
+npm run start            # Start Next.js in production mode
 
 # Linting
 npm run lint             # Run ESLint
+
+# Deployment
+./deploy.sh              # Deploy to Vercel (production)
+./deploy.sh --preview    # Deploy to Vercel (preview)
+./deploy.sh --token TOKEN # Deploy with custom token
 ```
 
 ## 🎨 Styling System
@@ -158,44 +166,78 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 ## 🔌 API Integration
 
-The frontend automatically proxies API requests to the NestJS backend:
+### Available Endpoints
 
-- Frontend requests to `/api/*` are forwarded to `http://localhost:3001/api/*`
-- CORS is configured for seamless communication
-- Example endpoints available:
-  - `GET /api` - Hello message
-  - `GET /api/health` - Health check
-  - `POST /api/echo` - Echo service
+- `GET /api` - Root API endpoint (optional authentication)
+- `GET /api/docs` - Interactive Swagger UI (Basic Auth required)
+- `GET /api/openapi.json` - OpenAPI 3.0 specification
+- `GET /api/debug-env` - Environment configuration debug
+- `POST /api/telegram/send` - Send message to Telegram (API Key required)
+- `POST /api/telegram/log` - Send formatted log to Telegram (API Key required)
+- `GET /api/telegram/threads` - List available Telegram threads
 
-## 🐳 Docker Configuration
+### Authentication
 
-### Frontend Container
-- Based on Node.js 18 Alpine
-- Runs Next.js development server
-- Hot reload enabled through volume mounting
+- **API Key**: Add header `X-API-Key: your-api-key-here` to protected endpoints
+- **Swagger UI**: Basic auth with username/password from environment variables
+- **Debug Mode**: Add header `X-Debug-Secret: your-debug-secret` for detailed error logs
 
-### Backend Container  
-- Based on Node.js 18 Alpine
-- Runs NestJS with nodemon for hot reload
-- Separate TypeScript configuration
+## 📚 Documentation
 
-### Networking
-- Both containers communicate through a Docker network
-- Ports exposed: 3000 (frontend), 3001 (backend)
+- **Environment Setup**: See `.github/ENV_SETUP.md` for detailed environment variable configuration
+- **Vercel Deployment**: See `.github/VERCEL_ENV_GUIDE.md` for viewing environment variables in Vercel
+- **API Documentation**: Access Swagger UI at `/api/docs` after deployment
 
 ## 🚀 Production Deployment
 
-1. **Build the applications:**
+### Quick Deployment to Vercel
+
+Use the deployment script to build and deploy to Vercel:
+
+```bash
+# Basic deployment (production)
+./deploy.sh
+
+# With Vercel token
+./deploy.sh --token YOUR_VERCEL_TOKEN
+
+# Preview deployment (not production)
+./deploy.sh --preview
+
+# Skip build step
+./deploy.sh --skip-build
+```
+
+The script will:
+- ✅ Check Vercel CLI installation
+- ✅ Link project to `hyperapex` on Vercel
+- ✅ Build the project (unless `--skip-build`)
+- ✅ Check environment variables
+- ✅ Deploy to Vercel (production or preview)
+
+### Manual Deployment
+
+1. **Build the application:**
    ```bash
    npm run build
-   npm run build:backend
    ```
 
-2. **Start in production mode:**
+2. **Deploy to Vercel:**
    ```bash
-   npm run start
-   npm run start:backend
+   npx vercel --prod
    ```
+
+### Environment Variables
+
+Make sure all required environment variables are set in Vercel:
+- `API_KEY` - API key for authentication
+- `SWAGGER_USERNAME` - Swagger UI username
+- `SWAGGER_PASSWORD` - Swagger UI password
+- `DEBUG_SECRET` - Debug secret for detailed logs
+- `TELEGRAM_BOT_TOKEN` - Telegram bot token (optional)
+- `TELEGRAM_GROUP_ID` - Telegram group ID (optional)
+
+See `.env.example` for all available options.
 
 ## 🤝 Contributing
 
