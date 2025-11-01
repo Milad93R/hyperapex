@@ -11,6 +11,8 @@ A modern full-stack application built with Next.js 15, featuring modular archite
 - **Authentication**: API key authentication, Swagger UI basic auth, Debug secret headers
 - **API Documentation**: Interactive Swagger UI with OpenAPI 3.0 specification
 - **Monitoring**: Request monitoring, debug logging, global error handling
+- **Calculations**: Modular calculation service supporting arithmetic, factorial, fibonacci, primes, statistics, and more
+- **Caching**: Modular cache utility with configurable cache presets for optimal performance
 - **Telegram Integration**: Send messages and formatted logs via Telegram Bot API
 - **Deployment**: Automated deployment script for Vercel
 
@@ -151,6 +153,13 @@ import { HeroSection } from '@/components/sections';
 import { ModernButton } from '@/components/buttons';
 import { ThemeToggle, ClientThemeProvider } from '@/components/theme';
 
+// Using backend utilities (caching example)
+import { CacheUtil } from '@/backend/utils/CacheUtil';
+// Use preset cache configurations
+return CacheUtil.cachedJsonResponse(data, 'API'); // 'API', 'DOCS', 'OPENAPI', 'HEALTH', 'STATIC', 'NO_CACHE'
+// Or create custom cache headers
+const cacheHeader = CacheUtil.customCache(3600, 86400); // maxAge, staleWhileRevalidate
+
 // Using ShadCN UI primitives
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -173,6 +182,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 - `GET /api/docs` - Interactive Swagger UI (Basic Auth required)
 - `GET /api/openapi.json` - OpenAPI 3.0 specification
 - `GET /api/debug-env` - Environment configuration debug
+- `POST /api/calculate` - Perform mathematical calculations (API Key required, uses Node.js runtime for CPU-intensive operations)
+- `GET /api/sleep` - Sleep/delay endpoint for testing (API Key required, query param: `duration` in ms, default: 5000ms)
+- `POST /api/sleep` - Sleep/delay endpoint for testing (API Key required, body: `{duration: number, message?: string}`, default: 5000ms)
 - `POST /api/telegram/send` - Send message to Telegram (API Key required)
 - `POST /api/telegram/log` - Send formatted log to Telegram (API Key required)
 - `GET /api/telegram/threads` - List available Telegram threads

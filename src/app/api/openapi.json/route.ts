@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getOpenAPISpec } from '@/backend/config'
+import { CacheUtil } from '@/backend/utils/CacheUtil'
 
 /**
  * OpenAPI 3.0 Specification endpoint
@@ -15,11 +16,8 @@ export async function GET(request: NextRequest) {
   const baseUrl = request.nextUrl.origin
   const openApiSpec = getOpenAPISpec(baseUrl)
 
-  return NextResponse.json(openApiSpec, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=3600',
-    },
-  })
+  const response = CacheUtil.cachedJsonResponse(openApiSpec, 'OPENAPI')
+  response.headers.set('ETag', `"${Date.now()}"`) // Simple ETag for cache validation
+  return response
 }
 

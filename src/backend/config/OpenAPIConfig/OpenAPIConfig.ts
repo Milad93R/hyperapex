@@ -56,6 +56,8 @@ export function getOpenAPISpec(baseUrl?: string) {
       { name: 'Examples', description: 'Example endpoints demonstrating features' },
       { name: 'Health', description: 'Health check and monitoring endpoints' },
       { name: 'Telegram', description: 'Telegram messaging integration endpoints' },
+      { name: 'Calculations', description: 'Mathematical and computational endpoints' },
+      { name: 'Testing', description: 'Testing and utility endpoints' },
     ],
     components: {
       securitySchemes: {
@@ -224,6 +226,75 @@ export function getOpenAPISpec(baseUrl?: string) {
             },
             timestamp: { type: 'string', format: 'date-time' },
             authenticated: { type: 'boolean' },
+          },
+        },
+        CalculationRequest: {
+          type: 'object',
+          required: ['type'],
+          properties: {
+            type: {
+              type: 'string',
+              enum: ['basic', 'factorial', 'fibonacci', 'primes', 'statistics', 'percentage', 'compound-interest', 'expression', 'sequence'],
+              description: 'Type of calculation to perform',
+            },
+            operation: {
+              type: 'string',
+              description: 'Operation for basic calculations: add, subtract, multiply, divide, power, modulo',
+            },
+            a: { type: 'number', description: 'First number for basic calculations' },
+            b: { type: 'number', description: 'Second number for basic calculations' },
+            n: { type: 'number', description: 'Number for factorial or fibonacci' },
+            numbers: {
+              type: 'array',
+              items: { type: 'number' },
+              description: 'Array of numbers for statistics calculation',
+            },
+            limit: { type: 'number', description: 'Upper limit for prime number calculation' },
+            part: { type: 'number', description: 'Part value for percentage calculation' },
+            total: { type: 'number', description: 'Total value for percentage calculation' },
+            principal: { type: 'number', description: 'Principal amount for compound interest' },
+            rate: { type: 'number', description: 'Interest rate for compound interest' },
+            time: { type: 'number', description: 'Time period for compound interest' },
+            compoundingFrequency: { type: 'number', description: 'Compounding frequency per year (default: 12)' },
+            expression: { type: 'string', description: 'Mathematical expression to evaluate' },
+            initialValue: { type: 'number', description: 'Initial value for sequence calculation' },
+            operations: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  operation: { type: 'string' },
+                  value: { type: 'number' },
+                },
+              },
+              description: 'Operations to perform in sequence',
+            },
+          },
+        },
+        CalculationResponse: {
+          type: 'object',
+          properties: {
+            success: { type: 'boolean' },
+            type: { type: 'string' },
+            result: {
+              oneOf: [
+                { type: 'number' },
+                { type: 'array', items: { type: 'number' } },
+                { type: 'object', additionalProperties: true },
+              ],
+              description: 'Calculation result',
+            },
+            duration: { type: 'string', description: 'Calculation duration in milliseconds' },
+            timestamp: { type: 'string', format: 'date-time' },
+            debug: {
+              type: 'object',
+              properties: {
+                logs: { type: 'array' },
+                mode: { type: 'string' },
+                input: { type: 'object' },
+              },
+              description: 'Debug information (only when X-Debug-Secret header is provided)',
+            },
           },
         },
       },
@@ -673,6 +744,248 @@ export function getOpenAPISpec(baseUrl?: string) {
                 'application/json': {
                   schema: {
                     $ref: '#/components/schemas/TelegramThreadsResponse',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      '/api/calculate': {
+        post: {
+          summary: 'Perform calculations',
+          description:
+            'Performs various mathematical and computational operations. Uses Node.js runtime for CPU-intensive calculations. Supports basic arithmetic, factorial, fibonacci, prime numbers, statistics, percentage, compound interest, expression evaluation, and operation sequences.',
+          operationId: 'calculate',
+          tags: ['Calculations'],
+          security: [{ ApiKeyAuth: [] }],
+          parameters: [
+            {
+              name: 'X-Debug-Secret',
+              in: 'header',
+              required: false,
+              schema: { type: 'string' },
+              description: 'Debug secret to enable detailed logging in response',
+            },
+          ],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/CalculationRequest',
+                },
+                examples: {
+                  basic: {
+                    summary: 'Basic arithmetic',
+                    value: {
+                      type: 'basic',
+                      operation: 'multiply',
+                      a: 42,
+                      b: 7,
+                    },
+                  },
+                  factorial: {
+                    summary: 'Factorial',
+                    value: {
+                      type: 'factorial',
+                      n: 10,
+                    },
+                  },
+                  fibonacci: {
+                    summary: 'Fibonacci',
+                    value: {
+                      type: 'fibonacci',
+                      n: 20,
+                    },
+                  },
+                  statistics: {
+                    summary: 'Statistics',
+                    value: {
+                      type: 'statistics',
+                      numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    },
+                  },
+                  expression: {
+                    summary: 'Expression evaluation',
+                    value: {
+                      type: 'expression',
+                      expression: '(10 + 5) * 2 - 3',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'Calculation successful',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/CalculationResponse',
+                  },
+                },
+              },
+            },
+            '400': {
+              description: 'Validation error or invalid calculation',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ValidationError',
+                  },
+                },
+              },
+            },
+            '401': {
+              description: 'Unauthorized',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+            '500': {
+              description: 'Calculation error',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      '/api/sleep': {
+        get: {
+          summary: 'Sleep endpoint (GET)',
+          description:
+            'Sleeps for a specified duration. Useful for testing timeouts, long-running operations, and Vercel function duration limits. Defaults to 5 seconds.',
+          operationId: 'sleepGet',
+          tags: ['Testing'],
+          security: [{ ApiKeyAuth: [] }],
+          parameters: [
+            {
+              name: 'duration',
+              in: 'query',
+              required: false,
+              schema: { type: 'integer', default: 5000, minimum: 0, maximum: 60000 },
+              description: 'Sleep duration in milliseconds (default: 5000ms = 5 seconds, max: 60000ms = 60 seconds)',
+            },
+          ],
+          responses: {
+            '200': {
+              description: 'Sleep completed successfully',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      success: { type: 'boolean' },
+                      message: { type: 'string' },
+                      requestedDuration: { type: 'string' },
+                      actualDuration: { type: 'string' },
+                      timestamp: { type: 'string', format: 'date-time' },
+                    },
+                  },
+                },
+              },
+            },
+            '400': {
+              description: 'Invalid duration parameter',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+            '401': {
+              description: 'Unauthorized',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+          },
+        },
+        post: {
+          summary: 'Sleep endpoint (POST)',
+          description:
+            'Sleeps for a specified duration. Useful for testing timeouts, long-running operations, and Vercel function duration limits. Defaults to 5 seconds.',
+          operationId: 'sleepPost',
+          tags: ['Testing'],
+          security: [{ ApiKeyAuth: [] }],
+          requestBody: {
+            required: false,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    duration: {
+                      type: 'integer',
+                      default: 5000,
+                      minimum: 0,
+                      maximum: 60000,
+                      description: 'Sleep duration in milliseconds (default: 5000ms = 5 seconds, max: 60000ms = 60 seconds)',
+                    },
+                    message: {
+                      type: 'string',
+                      description: 'Custom message to return',
+                    },
+                  },
+                },
+                example: {
+                  duration: 5000,
+                  message: 'Slept successfully',
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'Sleep completed successfully',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      success: { type: 'boolean' },
+                      message: { type: 'string' },
+                      requestedDuration: { type: 'string' },
+                      actualDuration: { type: 'string' },
+                      timestamp: { type: 'string', format: 'date-time' },
+                    },
+                  },
+                },
+              },
+            },
+            '400': {
+              description: 'Invalid duration or validation error',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+            '401': {
+              description: 'Unauthorized',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
                   },
                 },
               },

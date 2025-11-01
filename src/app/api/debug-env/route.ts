@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { envConfig } from '@/backend/config'
 import { withRequestMonitoring } from '@/backend/middleware/RequestMonitoring'
+import { CacheUtil } from '@/backend/utils/CacheUtil'
 
 /**
  * Environment debug endpoint
@@ -25,7 +26,7 @@ export async function GET(request: NextRequest) {
     request.headers.get('CF-Connecting-IP') ||
     'Unknown'
 
-  return NextResponse.json(
+  return CacheUtil.cachedJsonResponse(
     {
       environment: process.env.NODE_ENV || 'development',
       timestamp: new Date().toISOString(),
@@ -76,12 +77,7 @@ export async function GET(request: NextRequest) {
       },
       note: 'This endpoint shows configuration status without exposing sensitive values. Character analysis helps detect hidden characters (like \\r\\n) that might cause issues.',
     },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-      },
-    }
+    'NO_CACHE'
   )
   })(request)
 }

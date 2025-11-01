@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { withSwaggerAuth } from '@/backend'
+import { CacheUtil } from '@/backend/utils/CacheUtil'
 
 /**
  * Swagger UI endpoint with enhanced features
@@ -15,8 +16,6 @@ import { withSwaggerAuth } from '@/backend'
  * - Multiple server URLs support
  */
 export const GET = withSwaggerAuth(async (request: NextRequest) => {
-  const baseUrl = request.nextUrl.origin
-
   const html = `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -85,9 +84,5 @@ export const GET = withSwaggerAuth(async (request: NextRequest) => {
   </body>
 </html>`
 
-  return new NextResponse(html, {
-    headers: {
-      'Content-Type': 'text/html',
-    },
-  })
+  return CacheUtil.cachedHtmlResponse(html, 'DOCS')
 })

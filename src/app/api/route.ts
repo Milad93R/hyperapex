@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { apiKeyGuard } from '@/backend'
 import { withRequestMonitoring } from '@/backend/middleware/RequestMonitoring'
+import { CacheUtil } from '@/backend/utils/CacheUtil'
 
 /**
  * Example API route
@@ -13,7 +14,7 @@ export async function GET(request: NextRequest) {
     const authResponse = await apiKeyGuard(req)
     const isAuthenticated = !authResponse
 
-    return NextResponse.json(
+    return CacheUtil.cachedJsonResponse(
       {
         message: 'Hello from Next.js API route!',
         timestamp: new Date().toISOString(),
@@ -22,11 +23,7 @@ export async function GET(request: NextRequest) {
           ? 'Access granted with valid API key'
           : 'To authenticate, add header: X-API-Key: your-api-key-here',
       },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
+      'API'
     )
   })(request)
 }

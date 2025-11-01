@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
+import { CacheUtil } from '@/backend/utils/CacheUtil';
 
 export async function GET() {
-  return NextResponse.json({
-    status: 'OK',
-    timestamp: new Date().toISOString(),
-    service: 'Next.js API Routes',
-  });
+  return CacheUtil.cachedJsonResponse(
+    {
+      status: 'OK',
+      timestamp: new Date().toISOString(),
+      service: 'Next.js API Routes',
+    },
+    'HEALTH'
+  );
 }

@@ -8,4 +8,5 @@ export * from './config'
 export * from './utils'
 export * from './handlers'
 export * from './services/TelegramService'
+export * from './services/CalculationService'
 
