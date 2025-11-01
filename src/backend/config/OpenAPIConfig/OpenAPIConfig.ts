@@ -396,6 +396,63 @@ export function getOpenAPISpec(baseUrl?: string) {
           },
         },
       },
+      '/api/debug-env': {
+        get: {
+          summary: 'Environment debug endpoint',
+          description:
+            'Debug endpoint that shows environment variable configuration status without exposing sensitive values. Useful for troubleshooting configuration issues.',
+          operationId: 'debugEnv',
+          tags: ['General'],
+          responses: {
+            '200': {
+              description: 'Environment configuration status',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      environment: { type: 'string' },
+                      timestamp: { type: 'string', format: 'date-time' },
+                      requestInfo: {
+                        type: 'object',
+                        properties: {
+                          method: { type: 'string' },
+                          path: { type: 'string' },
+                          ip: { type: 'string' },
+                          userAgent: { type: 'string' },
+                        },
+                      },
+                      configuration: {
+                        type: 'object',
+                        properties: {
+                          hasApiKey: { type: 'boolean' },
+                          apiKeyLength: { type: 'integer' },
+                          hasSwaggerUsername: { type: 'boolean' },
+                          swaggerUsernameLength: { type: 'integer' },
+                          hasSwaggerPassword: { type: 'boolean' },
+                          swaggerPasswordLength: { type: 'integer' },
+                          hasDebugSecret: { type: 'boolean' },
+                          debugSecretLength: { type: 'integer' },
+                          hasCustomDomain: { type: 'boolean' },
+                          customDomain: { type: 'string' },
+                        },
+                      },
+                      characterAnalysis: {
+                        type: 'object',
+                        description: 'Character analysis to detect hidden characters',
+                      },
+                      tests: {
+                        type: 'object',
+                        description: 'Test comparisons for debugging',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
   }
 }

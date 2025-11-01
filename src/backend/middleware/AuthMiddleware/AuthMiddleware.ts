@@ -4,7 +4,7 @@ import { apiKeyGuard } from '../../guards/ApiKeyGuard'
 /**
  * Public routes that don't require API key authentication
  */
-const PUBLIC_ROUTES = ['/', '/api', '/api/docs', '/api/openapi.json', '/debug-env']
+const PUBLIC_ROUTES = ['/', '/api', '/api/docs', '/api/openapi.json', '/api/debug-env']
 
 /**
  * Authentication middleware for Next.js API routes
