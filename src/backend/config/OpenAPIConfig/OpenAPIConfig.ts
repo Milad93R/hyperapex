@@ -55,6 +55,7 @@ export function getOpenAPISpec(baseUrl?: string) {
       { name: 'General', description: 'General informational endpoints' },
       { name: 'Examples', description: 'Example endpoints demonstrating features' },
       { name: 'Health', description: 'Health check and monitoring endpoints' },
+      { name: 'Telegram', description: 'Telegram messaging integration endpoints' },
     ],
     components: {
       securitySchemes: {
@@ -150,6 +151,79 @@ export function getOpenAPISpec(baseUrl?: string) {
                 stack: { type: 'string' },
               },
             },
+          },
+        },
+        TelegramMessageRequest: {
+          type: 'object',
+          required: ['message'],
+          properties: {
+            message: {
+              type: 'string',
+              description: 'Message text to send to Telegram threads. HTML formatting supported.',
+            },
+            threads: {
+              type: 'array',
+              description: 'Additional thread IDs to send to. Default thread is always included automatically.',
+              items: {
+                type: 'integer',
+              },
+            },
+          },
+        },
+        TelegramLogRequest: {
+          type: 'object',
+          required: ['message'],
+          properties: {
+            level: {
+              type: 'string',
+              description: 'Log level label (INFO, WARN, ERROR, etc.). Defaults to INFO.',
+            },
+            message: { type: 'string' },
+            threads: {
+              type: 'array',
+              items: {
+                type: 'integer',
+              },
+            },
+          },
+        },
+        TelegramSendResponse: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' },
+            results: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  thread: { type: 'integer' },
+                  success: { type: 'boolean' },
+                  error: { type: 'string' },
+                },
+              },
+            },
+            timestamp: { type: 'string', format: 'date-time' },
+          },
+        },
+        TelegramThreadsResponse: {
+          type: 'object',
+          properties: {
+            threads: {
+              type: 'object',
+              properties: {
+                DEFAULT: { type: 'integer' },
+                OTHER: { type: 'integer' },
+              },
+            },
+            description: {
+              type: 'object',
+              properties: {
+                DEFAULT: { type: 'string' },
+                OTHER: { type: 'string' },
+              },
+            },
+            timestamp: { type: 'string', format: 'date-time' },
+            authenticated: { type: 'boolean' },
           },
         },
       },
@@ -446,6 +520,159 @@ export function getOpenAPISpec(baseUrl?: string) {
                         description: 'Test comparisons for debugging',
                       },
                     },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      '/api/telegram/send': {
+        post: {
+          summary: 'Send Telegram message',
+          description:
+            'Sends a message to the configured Telegram group threads. Default thread is always included and additional threads can be specified.',
+          operationId: 'sendTelegramMessage',
+          tags: ['Telegram'],
+          security: [{ ApiKeyAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/TelegramMessageRequest',
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'Message dispatch results',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/TelegramSendResponse',
+                  },
+                },
+              },
+            },
+            '400': {
+              description: 'Validation error',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ValidationError',
+                  },
+                },
+              },
+            },
+            '401': {
+              description: 'Unauthorized',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+            '500': {
+              description: 'Failed to send message',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      '/api/telegram/log': {
+        post: {
+          summary: 'Send formatted Telegram log',
+          description:
+            'Formats a log message with level and sends it to Telegram threads. Default thread is always included.',
+          operationId: 'sendTelegramLog',
+          tags: ['Telegram'],
+          security: [{ ApiKeyAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/TelegramLogRequest',
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'Log dispatch results',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/TelegramSendResponse',
+                  },
+                },
+              },
+            },
+            '400': {
+              description: 'Validation error',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ValidationError',
+                  },
+                },
+              },
+            },
+            '401': {
+              description: 'Unauthorized',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+            '500': {
+              description: 'Failed to send log',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      '/api/telegram/threads': {
+        get: {
+          summary: 'List Telegram thread IDs',
+          description: 'Returns the configured Telegram thread IDs and descriptions.',
+          operationId: 'getTelegramThreads',
+          tags: ['Telegram'],
+          parameters: [
+            {
+              name: 'X-API-Key',
+              in: 'header',
+              required: false,
+              schema: { type: 'string' },
+              description: 'API key for authentication (optional)',
+            },
+          ],
+          responses: {
+            '200': {
+              description: 'Thread information',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/TelegramThreadsResponse',
                   },
                 },
               },

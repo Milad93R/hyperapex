@@ -27,6 +27,19 @@ export const envConfig = {
   get customDomain(): string | undefined {
     return process.env.CUSTOM_DOMAIN?.trim()
   },
+
+  // Telegram Bot Configuration
+  get telegramBotToken(): string | undefined {
+    return process.env.TELEGRAM_BOT_TOKEN?.trim()
+  },
+
+  get telegramGroupId(): string | undefined {
+    return process.env.TELEGRAM_GROUP_ID?.trim()
+  },
+
+  get telegramDefaultThread(): number {
+    return parseInt(process.env.TELEGRAM_DEFAULT_THREAD || '2', 10)
+  },
 }
 
 /**

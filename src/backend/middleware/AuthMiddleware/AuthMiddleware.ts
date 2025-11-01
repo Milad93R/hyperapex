@@ -4,7 +4,7 @@ import { apiKeyGuard } from '../../guards/ApiKeyGuard'
 /**
  * Public routes that don't require API key authentication
  */
-const PUBLIC_ROUTES = ['/', '/api', '/api/docs', '/api/openapi.json', '/api/debug-env']
+const PUBLIC_ROUTES = ['/', '/api', '/api/docs', '/api/openapi.json', '/api/debug-env', '/api/telegram/threads']
 
 /**
  * Authentication middleware for Next.js API routes
@@ -35,6 +35,18 @@ export function createAuthenticatedHandler<T extends unknown[]>(
     const authResponse = await authMiddleware(request)
     if (authResponse) return authResponse
 
+    return handler(request, ...args)
+  }
+}
+
+/**
+ * Create optional auth handler - doesn't require auth but detects if provided
+ */
+export function createOptionalAuthHandler<T extends unknown[]>(
+  handler: (request: NextRequest, ...args: T) => Promise<NextResponse>
+) {
+  return async (request: NextRequest, ...args: T): Promise<NextResponse> => {
+    // Optional auth - don't block if missing, but detect if present
     return handler(request, ...args)
   }
 }
