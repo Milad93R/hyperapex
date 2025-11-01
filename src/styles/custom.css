@@ -401,22 +401,172 @@ body {
 }
 
 
+/* Hamburger Menu Styles */
+.hamburger-menu {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.hamburger-line {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #667eea;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+[data-theme="dark"] .hamburger-line {
+  background: #B3BAFF;
+}
+
+.hamburger-menu:hover .hamburger-line {
+  background: #764ba2;
+}
+
+[data-theme="dark"] .hamburger-menu:hover .hamburger-line {
+  background: #968CFF;
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  padding-top: 80px;
+}
+
+.mobile-nav.open {
+  right: 0;
+}
+
+[data-theme="dark"] .mobile-nav {
+  background: rgba(26, 26, 46, 0.98);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.7);
+}
+
+.mobile-nav-content {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  gap: 1.5rem;
+}
+
+.mobile-nav-link {
+  color: #667eea;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  background: rgba(102, 126, 234, 0.05);
+}
+
+[data-theme="dark"] .mobile-nav-link {
+  color: #B3BAFF;
+  background: rgba(179, 186, 255, 0.1);
+}
+
+.mobile-nav-link:hover {
+  background: rgba(102, 126, 234, 0.15);
+  color: #764ba2;
+  transform: translateX(8px);
+}
+
+[data-theme="dark"] .mobile-nav-link:hover {
+  background: rgba(179, 186, 255, 0.2);
+  color: #968CFF;
+}
+
+.mobile-header-actions {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 999;
+  transition: opacity 0.3s ease;
+}
+
+[data-theme="dark"] .mobile-nav-overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
+  .hamburger-menu {
+    display: flex;
+  }
+
+  .mobile-header-actions {
+    display: flex;
+  }
+
+  .nav {
+    display: none;
+  }
+
   .header-container {
     padding: 0 1.5rem;
+    position: relative;
+    z-index: 1002;
   }
-  
-  .nav {
-    gap: 1.5rem;
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
   }
-  
-  .nav-link {
-    font-size: 0.9rem;
-  }
-  
+
+  /* Adjust hero padding for fixed header */
   .hero {
-    padding: 3rem 1.5rem;
+    padding: 6rem 1.5rem 3rem;
   }
   
   .hero-heading {
@@ -437,29 +587,39 @@ body {
     padding: 0.875rem 2rem;
     font-size: 1rem;
   }
+
+  /* Fix island header for mobile */
+  @media (min-width: 1024px) {
+    .header {
+      position: absolute;
+      margin: 1rem auto;
+      max-width: 1200px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
 }
 
 @media (max-width: 480px) {
   .header-container {
-    flex-direction: column;
-    gap: 1rem;
     padding: 0 1rem;
-  }
-  
-  .nav {
-    gap: 1rem;
-  }
-  
-  .nav-link {
-    font-size: 0.85rem;
   }
   
   .logo-text {
     font-size: 1.5rem;
   }
+
+  .mobile-nav {
+    width: 100%;
+  }
+
+  .mobile-nav-link {
+    font-size: 1rem;
+    padding: 0.875rem 1.25rem;
+  }
   
   .hero {
-    padding: 2rem 1rem;
+    padding: 5rem 1rem 2rem;
   }
   
   .hero-heading {

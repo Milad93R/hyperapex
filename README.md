@@ -7,6 +7,7 @@ A modern full-stack application built with Next.js 15, featuring modular archite
 - **Frontend**: Next.js 15 with TypeScript and modular component architecture
 - **Backend**: Next.js API routes with authentication and security features
 - **UI Components**: ShadCN UI with custom CSS styling
+- **Responsive Design**: Mobile-first design with hamburger menu for screens < 768px
 - **Authentication**: API key authentication, Swagger UI basic auth, Debug secret headers
 - **API Documentation**: Interactive Swagger UI with OpenAPI 3.0 specification
 - **Monitoring**: Request monitoring, debug logging, global error handling
