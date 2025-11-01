@@ -1,0 +1,2 @@
+export { getOpenAPISpec } from './OpenAPIConfig'
+
