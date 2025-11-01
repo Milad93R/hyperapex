@@ -1,12 +1,9 @@
 import { createServer } from 'http';
 import { parse } from 'url';
 import next from 'next';
-import { createNestApp } from './src/backend/main';
-import 'reflect-metadata';
+import { SERVER_CONFIG } from './src/config/server.config';
 
-const dev = process.env.NODE_ENV !== 'production';
-const hostname = 'localhost';
-const port = parseInt(process.env.PORT || '3005', 10);
+const { dev, hostname, port } = SERVER_CONFIG;
 
 // Initialize Next.js
 const nextApp = next({ dev, hostname, port });
@@ -16,27 +13,12 @@ async function startServer() {
   try {
     // Prepare Next.js
     await nextApp.prepare();
-    
-    // Create NestJS app
-    const nestApp = await createNestApp();
-    await nestApp.init();
-    
-    // Get the underlying Express instance from NestJS
-    const nestHandler = nestApp.getHttpAdapter().getInstance();
 
     // Create HTTP server
     const server = createServer(async (req, res) => {
       try {
         const parsedUrl = parse(req.url!, true);
-        const { pathname } = parsedUrl;
-
-        // Route API requests to NestJS
-        if (pathname?.startsWith('/api')) {
-          nestHandler(req, res);
-        } else {
-          // Route everything else to Next.js
-          await nextHandler(req, res, parsedUrl);
-        }
+        await nextHandler(req, res, parsedUrl);
       } catch (err) {
         console.error('Error handling request:', err);
         res.statusCode = 500;
@@ -45,9 +27,9 @@ async function startServer() {
     });
 
     server.listen(port, () => {
-      console.log(`🚀 Hybrid Next.js + NestJS server ready on http://${hostname}:${port}`);
-      console.log(`📱 Next.js frontend: http://${hostname}:${port}`);
-      console.log(`🔧 NestJS API: http://${hostname}:${port}/api`);
+      console.log(`🚀 Next.js server ready on http://${hostname}:${port}`);
+      console.log(`📱 Frontend: http://${hostname}:${port}`);
+      console.log(`🔧 API Routes: http://${hostname}:${port}/api`);
     });
 
   } catch (error) {

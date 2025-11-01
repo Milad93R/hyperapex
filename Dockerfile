@@ -19,7 +19,7 @@ COPY . .
 # Create necessary directories
 RUN mkdir -p dist
 
-# Expose port 3005 (our hybrid app port)
+# Expose port 3005 (Next.js app port)
 EXPOSE 3005
 
 # Set environment variables for development
@@ -27,5 +27,5 @@ ENV NODE_ENV=development
 ENV CHOKIDAR_USEPOLLING=true
 ENV WATCHPACK_POLLING=true
 
-# Start the hybrid application in development mode with hot reload
+# Start the Next.js application in development mode with hot reload
 CMD ["npm", "run", "dev"]
