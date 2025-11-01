@@ -1,6 +1,6 @@
 import React from 'react';
 import { NAV_LINKS, SITE_CONFIG } from '@/config/constants';
-import ClientThemeToggle from './ClientThemeToggle';
+import { ClientThemeToggle } from '@/components/theme';
 
 export function Header() {
   return (

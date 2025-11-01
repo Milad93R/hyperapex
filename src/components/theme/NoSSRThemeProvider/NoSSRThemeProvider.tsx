@@ -15,6 +15,6 @@ interface NoSSRThemeProviderProps {
   children: ReactNode;
 }
 
-export default function NoSSRThemeProvider({ children }: NoSSRThemeProviderProps) {
+export function NoSSRThemeProvider({ children }: NoSSRThemeProviderProps) {
   return <ThemeProvider>{children}</ThemeProvider>;
 }

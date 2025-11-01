@@ -25,8 +25,19 @@ apex/
 │   │   ├── services/        # Business logic services
 │   │   ├── modules/         # NestJS modules
 │   │   └── main.ts          # Backend entry point
-│   ├── components/          # ShadCN UI components
-│   │   └── ui/              # Button, Card, Input components
+│   ├── components/          # React components organized by feature
+│   │   ├── layout/          # Layout components
+│   │   │   └── Header/     # Header component (with index.ts)
+│   │   ├── sections/       # Page sections
+│   │   │   └── HeroSection/# HeroSection component (with index.ts)
+│   │   ├── buttons/         # Button components
+│   │   │   └── ModernButton/# ModernButton component (with index.ts)
+│   │   ├── theme/          # Theme-related components
+│   │   │   ├── ThemeToggle/        # ThemeToggle component
+│   │   │   ├── ClientThemeToggle/  # ClientThemeToggle component
+│   │   │   ├── ClientThemeProvider/# ClientThemeProvider component
+│   │   │   └── NoSSRThemeProvider/ # NoSSRThemeProvider component
+│   │   └── ui/             # ShadCN UI primitives (Button, Card, Input)
 │   ├── lib/                 # Utility functions
 │   └── styles/              # Custom CSS files
 ├── docker-compose.yml       # Docker Compose configuration
@@ -125,7 +136,13 @@ This project uses a custom CSS system instead of Tailwind classes:
   </div>
 </div>
 
-// Using ShadCN components
+// Using modular components
+import { Header } from '@/components/layout';
+import { HeroSection } from '@/components/sections';
+import { ModernButton } from '@/components/buttons';
+import { ThemeToggle, ClientThemeProvider } from '@/components/theme';
+
+// Using ShadCN UI primitives
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 

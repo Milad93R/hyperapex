@@ -27,5 +27,3 @@ export const ModernButton: React.FC<ModernButtonProps> = ({
     </div>
   );
 };
-
-export default ModernButton;

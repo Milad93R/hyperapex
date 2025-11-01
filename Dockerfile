@@ -19,8 +19,8 @@ COPY . .
 # Create necessary directories
 RUN mkdir -p dist
 
-# Expose port 3005 (Next.js app port)
-EXPOSE 3005
+# Expose port 3168 (Next.js app port)
+EXPOSE 3168
 
 # Set environment variables for development
 ENV NODE_ENV=development
