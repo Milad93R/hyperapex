@@ -55,9 +55,16 @@ export const GET = withSwaggerAuth(async (request: NextRequest) => {
           tryItOutEnabled: true,
           requestInterceptor: (request) => {
             // Auto-add API key from localStorage if available
-            const auth = window.ui.getSystem().authSelectors.authorized();
-            if (auth && auth.ApiKeyAuth && !request.headers['X-API-Key']) {
-              request.headers['X-API-Key'] = auth.ApiKeyAuth.value;
+            try {
+              if (window.ui && window.ui.getSystem && window.ui.getSystem().authSelectors) {
+                const auth = window.ui.getSystem().authSelectors.authorized();
+                if (auth && auth.ApiKeyAuth && !request.headers['X-API-Key']) {
+                  request.headers['X-API-Key'] = auth.ApiKeyAuth.value;
+                }
+              }
+            } catch (e) {
+              // Swagger UI not fully initialized yet, skip auth injection
+              console.debug('Swagger UI auth not ready yet');
             }
             return request;
           },
