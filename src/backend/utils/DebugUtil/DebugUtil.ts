@@ -27,7 +27,7 @@ export function isDebugMode(request: NextRequest): boolean {
  */
 export class DebugLogCapture {
   private logs: CapturedLog[] = []
-  private originalMethods: {
+  private originalMethods!: {
     log: typeof console.log
     error: typeof console.error
     warn: typeof console.warn

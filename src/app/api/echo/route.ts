@@ -9,7 +9,7 @@ export async function POST(request: Request) {
       data: body,
       source: 'Next.js API Routes',
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Invalid JSON body' },
       { status: 400 }
