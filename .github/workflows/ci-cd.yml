@@ -70,7 +70,7 @@ jobs:
 
       - name: Deploy to Vercel
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN || '5IJ813gfeVQBN6Z3glEzkKkv' }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ steps.vercel-config.outputs.ORG_ID }}
           VERCEL_PROJECT_ID: ${{ steps.vercel-config.outputs.PROJECT_ID }}
         run: |
