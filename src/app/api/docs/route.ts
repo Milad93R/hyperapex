@@ -6,7 +6,7 @@ import { withSwaggerAuth } from '@/backend'
  * Access at: http://localhost:3168/api/docs
  * Requires Basic Auth (username/password from .env)
  */
-export const GET = withSwaggerAuth(async (request: NextRequest) => {
+export const GET = withSwaggerAuth(async () => {
   const html = `<!DOCTYPE html>
 <html lang="en">
   <head>

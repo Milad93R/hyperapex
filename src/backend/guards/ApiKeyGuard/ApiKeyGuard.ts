@@ -34,7 +34,7 @@ export async function apiKeyGuard(
 /**
  * Decorator function to protect API routes with API key
  */
-export function withApiKey<T extends any[]>(
+export function withApiKey<T extends unknown[]>(
   handler: (request: NextRequest, ...args: T) => Promise<NextResponse>
 ) {
   return async (request: NextRequest, ...args: T): Promise<NextResponse> => {

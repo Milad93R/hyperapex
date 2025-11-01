@@ -145,7 +145,7 @@ export function validateUrl(url: unknown): {
 /**
  * Sanitize object - removes undefined, null, and sanitizes strings
  */
-export function sanitizeObject<T extends Record<string, any>>(obj: T): Partial<T> {
+export function sanitizeObject<T extends Record<string, unknown>>(obj: T): Partial<T> {
   const sanitized: Partial<T> = {}
 
   for (const [key, value] of Object.entries(obj)) {
@@ -185,7 +185,7 @@ export async function validateRequestBody<T>(
     }
 
     return { data: body as T, error: null }
-  } catch (error) {
+  } catch {
     return {
       data: null,
       error: {

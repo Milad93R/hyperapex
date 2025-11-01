@@ -50,7 +50,7 @@ export class DebugLogCapture {
   }
 
   private captureLogs() {
-    console.log = (...args: any[]) => {
+    console.log = (...args: unknown[]) => {
       this.logs.push({
         level: 'log',
         message: args
@@ -61,7 +61,7 @@ export class DebugLogCapture {
       this.originalMethods.log.apply(console, args)
     }
 
-    console.error = (...args: any[]) => {
+    console.error = (...args: unknown[]) => {
       this.logs.push({
         level: 'error',
         message: args
@@ -72,7 +72,7 @@ export class DebugLogCapture {
       this.originalMethods.error.apply(console, args)
     }
 
-    console.warn = (...args: any[]) => {
+    console.warn = (...args: unknown[]) => {
       this.logs.push({
         level: 'warn',
         message: args
@@ -83,7 +83,7 @@ export class DebugLogCapture {
       this.originalMethods.warn.apply(console, args)
     }
 
-    console.info = (...args: any[]) => {
+    console.info = (...args: unknown[]) => {
       this.logs.push({
         level: 'info',
         message: args
@@ -94,7 +94,7 @@ export class DebugLogCapture {
       this.originalMethods.info.apply(console, args)
     }
 
-    console.debug = (...args: any[]) => {
+    console.debug = (...args: unknown[]) => {
       this.logs.push({
         level: 'debug',
         message: args

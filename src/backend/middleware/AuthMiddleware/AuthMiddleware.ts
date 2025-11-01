@@ -28,7 +28,7 @@ export async function authMiddleware(
  * Create authenticated API route handler
  * Automatically applies API key authentication
  */
-export function createAuthenticatedHandler<T extends any[]>(
+export function createAuthenticatedHandler<T extends unknown[]>(
   handler: (request: NextRequest, ...args: T) => Promise<NextResponse>
 ) {
   return async (request: NextRequest, ...args: T): Promise<NextResponse> => {

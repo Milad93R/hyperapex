@@ -41,7 +41,7 @@ export async function swaggerAuthGuard(
     }
 
     return null // Authorized
-  } catch (error) {
+  } catch {
     return new NextResponse('Unauthorized', {
       status: 401,
       headers: {
@@ -54,7 +54,7 @@ export async function swaggerAuthGuard(
 /**
  * Decorator function to protect Swagger routes with Basic Auth
  */
-export function withSwaggerAuth<T extends any[]>(
+export function withSwaggerAuth<T extends unknown[]>(
   handler: (request: NextRequest, ...args: T) => Promise<NextResponse>
 ) {
   return async (request: NextRequest, ...args: T): Promise<NextResponse> => {
