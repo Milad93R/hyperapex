@@ -158,7 +158,7 @@ export function sanitizeObject<T extends Record<string, unknown>>(obj: T): Parti
     } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
       sanitized[key as keyof T] = sanitizeObject(value as Record<string, unknown>) as T[keyof T]
     } else {
-      sanitized[key as keyof T] = value
+      sanitized[key as keyof T] = value as T[keyof T]
     }
   }
 
