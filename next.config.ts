@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ['@nestjs/core', '@nestjs/common'],
+  // Optimized for Vercel serverless deployment
+  // No external packages needed - all backend code is in src/backend
 };
 
 export default nextConfig;
