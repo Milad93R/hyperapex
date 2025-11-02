@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { withSwaggerAuth } from '@/backend'
 import { CacheUtil } from '@/backend/utils/CacheUtil'
 

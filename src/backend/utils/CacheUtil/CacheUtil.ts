@@ -123,7 +123,7 @@ export class CacheUtil {
     const cacheConfig = CACHE_CONFIG[cacheType]
     const response = NextResponse.json(data)
     
-    if (cacheConfig.noCache) {
+    if ('noCache' in cacheConfig && cacheConfig.noCache) {
       return this.addCacheHeaders(response, { noCache: true })
     }
 
@@ -144,7 +144,7 @@ export class CacheUtil {
       },
     })
 
-    if (cacheConfig.noCache) {
+    if ('noCache' in cacheConfig && cacheConfig.noCache) {
       return this.addCacheHeaders(response, { noCache: true })
     }
 

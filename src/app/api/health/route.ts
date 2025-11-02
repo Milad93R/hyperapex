@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { CacheUtil } from '@/backend/utils/CacheUtil';
 
 export async function GET() {

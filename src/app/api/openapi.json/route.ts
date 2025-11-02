@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { getOpenAPISpec } from '@/backend/config'
 import { CacheUtil } from '@/backend/utils/CacheUtil'
 

@@ -14,6 +14,7 @@ A modern full-stack application built with Next.js 15, featuring modular archite
 - **Calculations**: Modular calculation service supporting arithmetic, factorial, fibonacci, primes, statistics, and more
 - **Caching**: Modular cache utility with configurable cache presets for optimal performance
 - **Telegram Integration**: Send messages and formatted logs via Telegram Bot API
+- **Supabase Integration**: Full CRUD operations with PostgreSQL database via Supabase
 - **Deployment**: Automated deployment script for Vercel
 
 ## 📁 Project Structure
@@ -35,7 +36,7 @@ hyperapex/
 │   │   ├── guards/         # Authentication guards
 │   │   ├── middleware/     # Request middleware
 │   │   ├── handlers/       # Error handlers
-│   │   ├── services/       # Services (Telegram, etc.)
+│   │   ├── services/       # Services (Telegram, Calculation, Supabase)
 │   │   └── utils/          # Utility functions
 │   ├── components/          # React components organized by feature
 │   │   ├── layout/          # Layout components
@@ -160,6 +161,21 @@ return CacheUtil.cachedJsonResponse(data, 'API'); // 'API', 'DOCS', 'OPENAPI', '
 // Or create custom cache headers
 const cacheHeader = CacheUtil.customCache(3600, 86400); // maxAge, staleWhileRevalidate
 
+// Using SupabaseService (database operations)
+import { SupabaseService } from '@/backend';
+// Fetch all records from a table
+const users = await SupabaseService.fetchAll<User>('users');
+// Fetch by ID
+const user = await SupabaseService.fetchById<User>('users', 'user-id');
+// Insert a new record
+const newUser = await SupabaseService.insert<User>('users', { name: 'John', email: 'john@example.com' });
+// Update a record
+const updated = await SupabaseService.update<User>('users', 'user-id', { name: 'Jane' });
+// Delete a record
+await SupabaseService.delete('users', 'user-id');
+// Custom query
+const results = await SupabaseService.query<User>('users', (query) => query.eq('status', 'active').limit(10));
+
 // Using ShadCN UI primitives
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -188,6 +204,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 - `POST /api/telegram/send` - Send message to Telegram (API Key required)
 - `POST /api/telegram/log` - Send formatted log to Telegram (API Key required)
 - `GET /api/telegram/threads` - List available Telegram threads
+- `GET /api/supabase/test` - Test Supabase connection and configuration (API Key required)
 
 ### Authentication
 
@@ -249,6 +266,9 @@ Make sure all required environment variables are set in Vercel:
 - `DEBUG_SECRET` - Debug secret for detailed logs
 - `TELEGRAM_BOT_TOKEN` - Telegram bot token (optional)
 - `TELEGRAM_GROUP_ID` - Telegram group ID (optional)
+- `SUPABASE_URL` - Supabase project URL (optional)
+- `SUPABASE_SERVICE_KEY` - Supabase service role key (optional, server-side only)
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anon/public key (optional, for client-side)
 
 See `.env.example` for all available options.
 

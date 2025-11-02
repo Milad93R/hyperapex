@@ -40,6 +40,19 @@ export const envConfig = {
   get telegramDefaultThread(): number {
     return parseInt(process.env.TELEGRAM_DEFAULT_THREAD || '2', 10)
   },
+
+  // Supabase Configuration
+  get supabaseUrl(): string | undefined {
+    return process.env.SUPABASE_URL?.trim()
+  },
+
+  get supabaseServiceKey(): string | undefined {
+    return process.env.SUPABASE_SERVICE_KEY?.trim()
+  },
+
+  get supabaseAnonKey(): string | undefined {
+    return process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
+  },
 }
 
 /**
