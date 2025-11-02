@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "../styles/custom.css";
-import "../styles/modern-button.css";
 import { ClientThemeProvider } from "@/components/theme";
 import { SITE_CONFIG } from "@/config/constants";
 

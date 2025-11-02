@@ -5,6 +5,7 @@ import { useTypewriter } from '@/hooks/useTypewriter';
 import { HERO_CONTENT, TYPEWRITER_CONFIG } from '@/config/constants';
 import { ModernButton } from '@/components/buttons';
 import { Header } from '@/components/layout';
+import './HeroSection.css';
 
 export function HeroSection() {
   const [showSubtext, setShowSubtext] = useState(false);

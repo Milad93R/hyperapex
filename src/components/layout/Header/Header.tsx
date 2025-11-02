@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NAV_LINKS, SITE_CONFIG } from '@/config/constants';
 import { ClientThemeToggle } from '@/components/theme';
 import { HamburgerMenu } from '@/components/ui/HamburgerMenu';
+import './Header.css';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
