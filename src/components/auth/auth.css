@@ -63,6 +63,9 @@
   text-align: center;
   position: relative;
   z-index: var(--z-content);
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
 }
 
 .auth-subtitle {
@@ -550,6 +553,7 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 
 [data-theme="dark"] .auth-subtitle {
   background: linear-gradient(135deg, var(--color-text-silver) 0%, var(--color-text-silver-dark) 100%);

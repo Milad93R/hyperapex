@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import './ModernButton.css';
 
 interface ModernButtonProps {
@@ -12,7 +13,7 @@ export const ModernButton: React.FC<ModernButtonProps> = ({
 }) => {
   return (
     <div className="hero-fade-in modern-button-wrapper">
-      <a href={href} className="modern-button-link">
+      <Link href={href} className="modern-button-link">
         <div className="modern-button-container">
           <div className="modern-button-circle">
             <div className="modern-button-pattern">
@@ -24,7 +25,7 @@ export const ModernButton: React.FC<ModernButtonProps> = ({
           </div>
           <div className="modern-button-text">{children}</div>
         </div>
-      </a>
+      </Link>
     </div>
   );
 };

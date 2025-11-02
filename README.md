@@ -139,6 +139,7 @@ This project uses a custom CSS system instead of Tailwind classes:
 - **Custom Classes**: Available in `src/styles/custom.css`
 - **ShadCN Components**: Configured to work with the custom styling system
 - **Dark Mode**: Supported through CSS variables
+- **Header Design**: Modern gradient-based design with backdrop blur, matching the login/signup pages aesthetic with gradient backgrounds, border effects, and radial overlays
 
 ### Example Usage
 

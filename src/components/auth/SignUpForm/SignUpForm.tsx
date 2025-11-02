@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import '../auth.css';
 
 interface SignUpFormProps {
@@ -32,7 +33,11 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSwitchToLogin }) => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h1 className="auth-title">Create Account</h1>
+        <div style={{ textAlign: 'center' }}>
+          <Link href="/" style={{ textDecoration: 'none' }}>
+            <h1 className="auth-title">HyperApex</h1>
+          </Link>
+        </div>
         <p className="auth-subtitle">Join us and start your journey</p>
 
         <form onSubmit={handleSubmit} className="auth-form">
@@ -109,13 +114,13 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSwitchToLogin }) => {
               <input type="checkbox" required />
               <span>
                 I agree to the{' '}
-                <a href="#terms" className="auth-link">
+                <Link href="#terms" className="auth-link">
                   Terms of Service
-                </a>{' '}
+                </Link>{' '}
                 and{' '}
-                <a href="#privacy" className="auth-link">
+                <Link href="#privacy" className="auth-link">
                   Privacy Policy
-                </a>
+                </Link>
               </span>
             </label>
           </div>
@@ -137,9 +142,9 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSwitchToLogin }) => {
                 Sign in
               </button>
             ) : (
-              <a href="/login" className="auth-link">
+              <Link href="/login" className="auth-link">
                 Sign in
-              </a>
+              </Link>
             )}
           </p>
         </div>

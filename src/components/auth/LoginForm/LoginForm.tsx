@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import '../auth.css';
 
 interface LoginFormProps {
@@ -30,7 +31,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignUp }) => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h1 className="auth-title">Welcome Back</h1>
+        <div style={{ textAlign: 'center' }}>
+          <Link href="/" style={{ textDecoration: 'none' }}>
+            <h1 className="auth-title">HyperApex</h1>
+          </Link>
+        </div>
         <p className="auth-subtitle">Sign in to your account</p>
 
         <form onSubmit={handleSubmit} className="auth-form">
@@ -73,9 +78,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignUp }) => {
               <input type="checkbox" />
               <span>Remember me</span>
             </label>
-            <a href="#forgot" className="auth-link">
+            <Link href="#forgot" className="auth-link">
               Forgot password?
-            </a>
+            </Link>
           </div>
 
           <button type="submit" className="btn-secondary auth-submit">
@@ -95,9 +100,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignUp }) => {
                 Sign up
               </button>
             ) : (
-              <a href="/signup" className="auth-link">
+              <Link href="/signup" className="auth-link">
                 Sign up
-              </a>
+              </Link>
             )}
           </p>
         </div>

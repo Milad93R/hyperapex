@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { NAV_LINKS, SITE_CONFIG } from '@/config/constants';
 import { ClientThemeToggle } from '@/components/theme';
 import { HamburgerMenu } from '@/components/ui/HamburgerMenu';
@@ -79,16 +80,24 @@ export function Header() {
               <HamburgerMenu isOpen={isMenuOpen} onClick={toggleMenu} />
             </div>
             <nav ref={navRef} className={`mobile-nav ${isMenuOpen ? 'open' : ''}`}>
+              <button 
+                className="mobile-nav-close"
+                onClick={closeMenu}
+                aria-label="Close navigation menu"
+                type="button"
+              >
+                <span className="mobile-nav-close-icon"></span>
+              </button>
               <div className="mobile-nav-content">
                 {NAV_LINKS.map((link) => (
-                  <a
+                  <Link
                     key={link.href}
                     href={link.href}
                     className="mobile-nav-link"
                     onClick={closeMenu}
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </nav>
@@ -99,9 +108,9 @@ export function Header() {
         ) : (
           <nav className="nav">
             {NAV_LINKS.map((link) => (
-              <a key={link.href} href={link.href} className="nav-link">
+              <Link key={link.href} href={link.href} className="nav-link">
                 {link.label}
-              </a>
+              </Link>
             ))}
             <ClientThemeToggle />
           </nav>

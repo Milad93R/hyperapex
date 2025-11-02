@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useTypewriter } from '@/hooks/useTypewriter';
 import { HERO_CONTENT, TYPEWRITER_CONFIG } from '@/config/constants';
 import { ModernButton } from '@/components/buttons';
@@ -36,8 +37,8 @@ export function HeroSection() {
           {showSubtext && <span className="typewriter-cursor">|</span>}
         </p>
         <div className="hero-buttons">
-          <ModernButton />
-          <button className="btn-secondary">Learn More</button>
+          <ModernButton href="/signup">early access</ModernButton>
+          <Link href="/login" className="btn-secondary">Portfolio</Link>
         </div>
       </div>
     </section>
