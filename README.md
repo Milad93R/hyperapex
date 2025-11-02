@@ -126,6 +126,9 @@ npm run lint             # Run ESLint
 ./deploy.sh              # Deploy to Vercel (production)
 ./deploy.sh --preview    # Deploy to Vercel (preview)
 ./deploy.sh --token TOKEN # Deploy with custom token
+
+# Environment Variables
+./sync-env-to-vercel.sh  # Sync all .env variables to Vercel
 ```
 
 ## 🎨 Styling System
