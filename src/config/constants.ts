@@ -14,7 +14,7 @@ export const NAV_LINKS: NavLink[] = [
 ];
 
 export const HERO_CONTENT: HeroContent = {
-  heading: 'Welcome to Hyperapex',
+  heading: `Welcome to ${SITE_CONFIG.name}`,
   subheading: 'Build amazing experiences with modern web technologies',
 };
 

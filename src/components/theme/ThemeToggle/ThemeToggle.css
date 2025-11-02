@@ -1,42 +1,74 @@
 /* Theme Toggle Button */
 .theme-toggle {
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  border: 2px solid var(--border-color-primary);
-  border-radius: 50px;
-  padding: var(--spacing-sm);
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: none;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all var(--transition-normal);
-  color: var(--color-primary);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
 }
 
-.theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: var(--color-primary);
-  color: var(--color-primary-dark);
-  transform: scale(1.1) rotate(15deg);
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+.theme-toggle::before {
+  content: '';
+  background: radial-gradient(farthest-side at 50% 100%, var(--color-secondary), transparent);
+  mix-blend-mode: hard-light;
+  position: absolute;
+  inset: 0;
+  opacity: var(--opacity-hover);
+  pointer-events: none;
+  z-index: var(--z-base);
+  transition: opacity var(--transition-normal);
 }
+
 
 .theme-toggle svg {
   display: block;
-  transition: transform var(--transition-normal);
+  width: 20px;
+  height: 20px;
+  position: relative;
+  z-index: var(--z-content);
+  color: var(--color-text-silver);
+  transition: color var(--transition-normal);
 }
 
 /* Dark theme toggle styles */
 [data-theme="dark"] .theme-toggle {
-  background: var(--bg-dark-card);
-  border-color: var(--border-color-secondary-dark);
-  color: var(--color-secondary);
+  background: transparent;
+  box-shadow: none;
 }
 
-[data-theme="dark"] .theme-toggle:hover {
-  background: rgba(26, 26, 46, 0.9);
-  border-color: var(--color-secondary);
-  color: var(--color-secondary-dark);
-  box-shadow: 0 4px 16px rgba(179, 186, 255, 0.3);
+[data-theme="dark"] .theme-toggle::before {
+  background: radial-gradient(farthest-side at 50% 100%, rgba(255, 255, 255, 0.3), transparent);
+}
+
+
+[data-theme="dark"] .theme-toggle svg {
+  color: var(--color-text-silver);
+}
+
+
+/* Light theme toggle styles */
+[data-theme="light"] .theme-toggle {
+  background: transparent;
+  box-shadow: none;
+}
+
+[data-theme="light"] .theme-toggle::before {
+  background: radial-gradient(farthest-side at 50% 100%, #cccccc, transparent);
+}
+
+.theme-toggle:hover svg{
+  color: var(--color-text-silver-lighter);
 }
 

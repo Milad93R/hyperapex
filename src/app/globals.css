@@ -16,6 +16,11 @@
   --color-text-silver-dark: #4b5563;
   --color-text-silver-darker: #374151;
   
+  /* Dark Text Colors for Light Mode */
+  --color-text-darkest: #0a0a0f;
+  --color-text-dark: #1a202c;
+  --color-text-dark-medium: #2d3748;
+  
   /* Background Colors */
   --bg-light-start: #f5f7fa;
   --bg-light-end: #c3cfe2;

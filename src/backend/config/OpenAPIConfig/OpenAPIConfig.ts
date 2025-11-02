@@ -1,4 +1,5 @@
 import { envConfig } from '../EnvConfig'
+import { SITE_CONFIG } from '@/config/constants'
 
 /**
  * Get OpenAPI 3.0 specification with dynamic server URLs
@@ -43,9 +44,9 @@ export function getOpenAPISpec(baseUrl?: string) {
   return {
     openapi: '3.0.0',
     info: {
-      title: 'Hyperapex API',
+      title: `${SITE_CONFIG.name} API`,
       version: '1.0.0',
-      description: 'Hyperapex API Documentation - Production-ready REST API with authentication, validation, and comprehensive features',
+      description: `${SITE_CONFIG.name} API Documentation - Production-ready REST API with authentication, validation, and comprehensive features`,
       contact: {
         name: 'API Support',
       },

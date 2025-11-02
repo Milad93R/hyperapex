@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { SITE_CONFIG } from '@/config/constants';
 import '../auth.css';
 
 interface SignUpFormProps {
@@ -35,7 +36,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSwitchToLogin }) => {
       <div className="auth-card">
         <div style={{ textAlign: 'center' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <h1 className="auth-title">HyperApex</h1>
+            <h1 className="auth-title">{SITE_CONFIG.name}</h1>
           </Link>
         </div>
         <p className="auth-subtitle">Join us and start your journey</p>

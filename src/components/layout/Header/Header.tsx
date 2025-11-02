@@ -70,9 +70,9 @@ export function Header() {
   return (
     <header className="header">
       <div className="header-container">
-        <div className="logo">
+        <Link href="/" className="logo">
           <span className="logo-text">{SITE_CONFIG.name}</span>
-        </div>
+        </Link>
         {isMobile ? (
           <>
             <div ref={headerActionsRef} className="mobile-header-actions">
