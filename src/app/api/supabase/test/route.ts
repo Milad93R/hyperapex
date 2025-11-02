@@ -10,7 +10,7 @@ import { withErrorHandler } from '@/backend/handlers'
  */
 export const GET = createAuthenticatedHandler(
   withRequestMonitoring(
-    withErrorHandler(async (request: NextRequest) => {
+    withErrorHandler(async (_request: NextRequest) => {
       try {
         const isConfigured = SupabaseService.isConfigured()
 
@@ -28,7 +28,7 @@ export const GET = createAuthenticatedHandler(
         }
 
         // Try to get the client (this will validate the connection)
-        const client = SupabaseService.getClient()
+        SupabaseService.getClient()
         const supabaseUrl = process.env.SUPABASE_URL
 
         return NextResponse.json({

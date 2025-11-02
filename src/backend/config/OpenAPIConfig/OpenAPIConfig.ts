@@ -58,6 +58,7 @@ export function getOpenAPISpec(baseUrl?: string) {
       { name: 'Telegram', description: 'Telegram messaging integration endpoints' },
       { name: 'Calculations', description: 'Mathematical and computational endpoints' },
       { name: 'Testing', description: 'Testing and utility endpoints' },
+      { name: 'Supabase', description: 'Supabase database integration endpoints' },
     ],
     components: {
       securitySchemes: {
@@ -295,6 +296,17 @@ export function getOpenAPISpec(baseUrl?: string) {
               },
               description: 'Debug information (only when X-Debug-Secret header is provided)',
             },
+          },
+        },
+        SupabaseTestResponse: {
+          type: 'object',
+          properties: {
+            success: { type: 'boolean' },
+            message: { type: 'string' },
+            configured: { type: 'boolean' },
+            supabaseUrl: { type: 'string' },
+            timestamp: { type: 'string', format: 'date-time' },
+            note: { type: 'string' },
           },
         },
       },
@@ -982,6 +994,73 @@ export function getOpenAPISpec(baseUrl?: string) {
             },
             '401': {
               description: 'Unauthorized',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      '/api/supabase/test': {
+        get: {
+          summary: 'Test Supabase connection',
+          description:
+            'Tests if Supabase is configured and ready to use. Returns connection status and configuration information.',
+          operationId: 'testSupabase',
+          tags: ['Supabase'],
+          security: [{ ApiKeyAuth: [] }],
+          responses: {
+            '200': {
+              description: 'Supabase is configured and ready',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/SupabaseTestResponse',
+                  },
+                  example: {
+                    success: true,
+                    message: 'Supabase is configured and ready to use',
+                    configured: true,
+                    supabaseUrl: 'https://your-project.supabase.co',
+                    timestamp: '2025-11-02T04:00:00.000Z',
+                    note: 'You can now use SupabaseService to interact with your database',
+                  },
+                },
+              },
+            },
+            '503': {
+              description: 'Supabase is not configured',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/SupabaseTestResponse',
+                  },
+                  example: {
+                    success: false,
+                    message: 'Supabase is not configured',
+                    configured: false,
+                    timestamp: '2025-11-02T04:00:00.000Z',
+                    note: 'Please check your environment variables: SUPABASE_URL and SUPABASE_SERVICE_KEY',
+                  },
+                },
+              },
+            },
+            '401': {
+              description: 'Unauthorized',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+            '500': {
+              description: 'Internal server error',
               content: {
                 'application/json': {
                   schema: {

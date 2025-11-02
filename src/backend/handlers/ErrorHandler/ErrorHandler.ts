@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isDebugMode } from '../../utils/DebugUtil'
-import { envConfig } from '../../config/EnvConfig'
 
 /**
  * Error response interface

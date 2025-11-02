@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { envConfig } from '@/backend/config'
 import { withRequestMonitoring } from '@/backend/middleware/RequestMonitoring'
 import { CacheUtil } from '@/backend/utils/CacheUtil'

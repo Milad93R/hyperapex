@@ -15,7 +15,7 @@ import { CacheUtil } from '@/backend/utils/CacheUtil'
  * - Endpoint filtering and search
  * - Multiple server URLs support
  */
-export const GET = withSwaggerAuth(async (request: NextRequest) => {
+export const GET = withSwaggerAuth(async (_request: NextRequest) => {
   const html = `<!DOCTYPE html>
 <html lang="en">
   <head>

@@ -9,7 +9,7 @@ import { Header } from '@/components/layout';
 export function HeroSection() {
   const [showSubtext, setShowSubtext] = useState(false);
 
-  const { displayedText: displayedHeading, isComplete: headingComplete } = useTypewriter({
+  const { displayedText: displayedHeading } = useTypewriter({
     text: HERO_CONTENT.heading,
     speed: TYPEWRITER_CONFIG.headingSpeed,
     onComplete: () => {

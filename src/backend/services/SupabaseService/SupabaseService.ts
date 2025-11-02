@@ -145,18 +145,23 @@ export class SupabaseService {
    */
   public static async query<T>(
     tableName: string,
-    queryBuilder: (query: ReturnType<SupabaseClient['from']>) => ReturnType<SupabaseClient['from']>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    queryBuilder: (query: any) => any
   ): Promise<T[]> {
     const supabase = this.getClient()
     const query = supabase.from(tableName).select('*')
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const builtQuery = queryBuilder(query)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
     const { data, error } = await builtQuery
 
     if (error) {
       console.error(`Error querying ${tableName}:`, error)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
       throw new Error(`Failed to query data: ${error.message}`)
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return (data || []) as T[]
   }
 
