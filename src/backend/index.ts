@@ -10,4 +10,5 @@ export * from './handlers'
 export * from './services/TelegramService'
 export * from './services/CalculationService'
 export * from './services/SupabaseService'
+export * from './services/hyperinfo'
 

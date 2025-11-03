@@ -60,6 +60,7 @@ export function getOpenAPISpec(baseUrl?: string) {
       { name: 'Calculations', description: 'Mathematical and computational endpoints' },
       { name: 'Testing', description: 'Testing and utility endpoints' },
       { name: 'Supabase', description: 'Supabase database integration endpoints' },
+      { name: 'Hyperinfo', description: 'Hyperliquid API wrapper endpoints' },
     ],
     components: {
       securitySchemes: {
@@ -308,6 +309,54 @@ export function getOpenAPISpec(baseUrl?: string) {
             supabaseUrl: { type: 'string' },
             timestamp: { type: 'string', format: 'date-time' },
             note: { type: 'string' },
+          },
+        },
+        HyperinfoRequest: {
+          type: 'object',
+          properties: {
+            type: {
+              type: 'string',
+              description: 'Type of Hyperliquid API call',
+            },
+            user: {
+              type: 'string',
+              pattern: '^0x[a-fA-F0-9]{40}$',
+              description: 'Ethereum address of the user (required for userNonFundingLedgerUpdates)',
+            },
+            startTime: {
+              type: 'integer',
+              description: 'Unix timestamp in milliseconds to start from (required for userNonFundingLedgerUpdates)',
+              minimum: 1,
+            },
+            payload: {
+              type: 'object',
+              additionalProperties: true,
+              description: 'Custom payload for generic API calls (required for custom type)',
+            },
+          },
+        },
+        HyperinfoResponse: {
+          type: 'object',
+          properties: {
+            success: { type: 'boolean' },
+            type: { type: 'string' },
+            data: {
+              type: 'object',
+              additionalProperties: true,
+              description: 'Response data from Hyperliquid API',
+            },
+            duration: { type: 'string', description: 'Request duration in milliseconds' },
+            timestamp: { type: 'string', format: 'date-time' },
+            debug: {
+              type: 'object',
+              properties: {
+                logs: { type: 'array' },
+                mode: { type: 'string' },
+                input: { type: 'object' },
+                stack: { type: 'string' },
+              },
+              description: 'Debug information (only when X-Debug-Secret header is provided)',
+            },
           },
         },
       },
@@ -1062,6 +1111,109 @@ export function getOpenAPISpec(baseUrl?: string) {
             },
             '500': {
               description: 'Internal server error',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      '/api/hyperinfo': {
+        post: {
+          summary: 'Hyperliquid API wrapper',
+          description:
+            'Wrapper for Hyperliquid API endpoints (https://api.hyperliquid.xyz/info). Provides access to Hyperliquid blockchain data including user ledger updates and other API calls.',
+          operationId: 'hyperinfo',
+          tags: ['Hyperinfo'],
+          security: [{ ApiKeyAuth: [] }],
+          parameters: [
+            {
+              name: 'X-Debug-Secret',
+              in: 'header',
+              required: false,
+              schema: { type: 'string' },
+              description: 'Debug secret to enable detailed logging in response',
+            },
+          ],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/HyperinfoRequest',
+                },
+                examples: {
+                  userLedgerUpdates: {
+                    summary: 'User non-funding ledger updates',
+                    description: 'Get ledger updates for a user starting from a specific timestamp',
+                    value: {
+                      type: 'userNonFundingLedgerUpdates',
+                      user: '0xA13CF65c9fb9AFfFA991E8b371C5EE122F8ba537',
+                      startTime: 1672531200000,
+                    },
+                  },
+                  custom: {
+                    summary: 'Custom API call',
+                    description: 'Make a custom call to the Hyperliquid API',
+                    value: {
+                      type: 'custom',
+                      payload: {
+                        type: 'userNonFundingLedgerUpdates',
+                        user: '0xA13CF65c9fb9AFfFA991E8b371C5EE122F8ba537',
+                        startTime: 1672531200000,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'Hyperliquid API call successful',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/HyperinfoResponse',
+                  },
+                  example: {
+                    success: true,
+                    type: 'userNonFundingLedgerUpdates',
+                    data: {
+                      // Response from Hyperliquid API
+                    },
+                    duration: '123.45ms',
+                    timestamp: '2025-11-03T10:00:00.000Z',
+                  },
+                },
+              },
+            },
+            '400': {
+              description: 'Validation error or invalid request',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ValidationError',
+                  },
+                },
+              },
+            },
+            '401': {
+              description: 'Unauthorized',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/ErrorResponse',
+                  },
+                },
+              },
+            },
+            '500': {
+              description: 'Hyperliquid API error',
               content: {
                 'application/json': {
                   schema: {
