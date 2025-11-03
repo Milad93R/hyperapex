@@ -1,0 +1,178 @@
+.dashboard-recent-card {
+  background: linear-gradient(0deg, var(--color-accent), var(--color-secondary-dark));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  box-shadow: 
+    inset 0 0 0 1px var(--border-color-secondary),
+    var(--shadow-md);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.dashboard-recent-card::before {
+  content: '';
+  background: radial-gradient(farthest-side at 50% 100%, var(--color-secondary), transparent);
+  mix-blend-mode: hard-light;
+  position: absolute;
+  inset: 0;
+  opacity: var(--opacity-hover);
+  pointer-events: none;
+  z-index: var(--z-base);
+}
+
+.dashboard-recent-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(152, 192, 239, 0.3), rgba(179, 186, 255, 0.3));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dashboard-recent-header {
+  margin-bottom: var(--spacing-md);
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.dashboard-recent-title {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  font-family: monospace;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dashboard-recent-content {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.recent-item {
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color-secondary);
+  transition: all var(--transition-fast);
+}
+
+[data-theme="light"] .recent-item {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--border-color-light);
+}
+
+.recent-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+}
+
+.recent-item-title {
+  font-size: var(--font-base);
+  font-weight: 600;
+  font-family: monospace;
+  color: var(--color-text-primary);
+}
+
+.recent-item-status {
+  font-size: var(--font-xs);
+  font-family: monospace;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.recent-item-status-active {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.recent-item-status-pending {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.recent-item-status-completed {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+.recent-item-description {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  font-family: monospace;
+}
+
+.recent-item-date {
+  font-size: var(--font-xs);
+  color: var(--color-text-silver);
+  font-family: monospace;
+  opacity: var(--opacity-muted);
+}
+
+/* Light theme */
+[data-theme="light"] .dashboard-recent-card {
+  background: linear-gradient(0deg, var(--bg-card-light-start), var(--bg-card-light-end));
+  box-shadow: 
+    inset 0 0 0 1px var(--border-color-light),
+    var(--shadow-md);
+}
+
+[data-theme="light"] .dashboard-recent-card::before {
+  background: radial-gradient(farthest-side at 50% 100%, #cccccc, transparent);
+}
+
+[data-theme="light"] .recent-item-title {
+  color: var(--color-text-dark);
+}
+
+[data-theme="light"] .recent-item-description {
+  color: var(--color-text-dark-medium);
+}
+
+/* Dark theme */
+[data-theme="dark"] .dashboard-recent-card {
+  background: linear-gradient(0deg, var(--bg-dark-start), var(--bg-dark-end));
+  box-shadow: 
+    inset 0 0 0 1px var(--border-color-secondary-dark),
+    var(--shadow-dark);
+}
+
+[data-theme="dark"] .dashboard-recent-card::before {
+  background: radial-gradient(farthest-side at 50% 100%, rgba(255, 255, 255, 0.1), transparent);
+}
+
+[data-theme="dark"] .dashboard-recent-title {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-recent-card {
+    padding: var(--spacing-lg);
+  }
+}
+

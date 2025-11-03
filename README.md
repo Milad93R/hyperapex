@@ -7,6 +7,7 @@ A modern full-stack application built with Next.js 15, featuring modular archite
 - **Frontend**: Next.js 15 with TypeScript and modular component architecture
 - **Backend**: Next.js API routes with authentication and security features
 - **UI Components**: ShadCN UI with custom CSS styling
+- **Dashboard**: Comprehensive dashboard with stats, metrics, activity feed, and recent projects
 - **Responsive Design**: Mobile-first design with hamburger menu for screens < 768px
 - **Authentication**: API key authentication, Swagger UI basic auth, Debug secret headers
 - **API Documentation**: Interactive Swagger UI with OpenAPI 3.0 specification
@@ -45,6 +46,11 @@ hyperapex/
 │   │   │   └── HeroSection/# HeroSection component (with index.ts)
 │   │   ├── buttons/         # Button components
 │   │   │   └── ModernButton/# ModernButton component (with index.ts)
+│   │   ├── dashboard/       # Dashboard components
+│   │   │   ├── DashboardStats/     # Stats cards component
+│   │   │   ├── DashboardMetrics/   # Metrics chart component
+│   │   │   ├── DashboardActivity/  # Activity feed component
+│   │   │   └── DashboardRecent/ # Recent projects component
 │   │   ├── theme/          # Theme-related components
 │   │   │   ├── ThemeToggle/        # ThemeToggle component
 │   │   │   ├── ClientThemeToggle/  # ClientThemeToggle component
@@ -130,6 +136,19 @@ npm run lint             # Run ESLint
 # Environment Variables
 ./sync-env-to-vercel.sh  # Sync all .env variables to Vercel
 ```
+
+## 🎨 Design System
+
+A comprehensive design system specification is available in `design-system.json` at the root of the project. This JSON file contains:
+
+- **Design Tokens**: Colors, spacing, typography, border radius, shadows, opacity, z-index, and transitions
+- **Component Styles**: Detailed styles for buttons, header, hero section, and other components
+- **Theme Configuration**: Light and dark mode color definitions
+- **Gradients & Animations**: All gradient definitions and animation specifications
+- **Responsive Breakpoints**: Mobile, tablet, and desktop breakpoints
+- **Usage Instructions**: Step-by-step guide to apply this design system to another project
+
+This design system can be exported and used in other projects to maintain consistent styling across applications.
 
 ## 🎨 Styling System
 

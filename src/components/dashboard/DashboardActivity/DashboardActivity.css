@@ -1,0 +1,156 @@
+.dashboard-activity-card {
+  background: linear-gradient(0deg, var(--color-accent), var(--color-secondary-dark));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  box-shadow: 
+    inset 0 0 0 1px var(--border-color-secondary),
+    var(--shadow-md);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.dashboard-activity-card::before {
+  content: '';
+  background: radial-gradient(farthest-side at 50% 100%, var(--color-secondary), transparent);
+  mix-blend-mode: hard-light;
+  position: absolute;
+  inset: 0;
+  opacity: var(--opacity-hover);
+  pointer-events: none;
+  z-index: var(--z-base);
+}
+
+.dashboard-activity-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(152, 192, 239, 0.3), rgba(179, 186, 255, 0.3));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dashboard-activity-header {
+  margin-bottom: var(--spacing-md);
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.dashboard-activity-title {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  font-family: monospace;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dashboard-activity-content {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.activity-item {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+
+
+.activity-icon {
+  font-size: var(--font-lg);
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-sm);
+}
+
+[data-theme="light"] .activity-icon {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.activity-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.activity-message {
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  font-family: monospace;
+}
+
+.activity-time {
+  font-size: var(--font-xs);
+  color: var(--color-text-silver);
+  font-family: monospace;
+  opacity: var(--opacity-muted);
+}
+
+/* Light theme */
+[data-theme="light"] .dashboard-activity-card {
+  background: linear-gradient(0deg, var(--bg-card-light-start), var(--bg-card-light-end));
+  box-shadow: 
+    inset 0 0 0 1px var(--border-color-light),
+    var(--shadow-md);
+}
+
+[data-theme="light"] .dashboard-activity-card::before {
+  background: radial-gradient(farthest-side at 50% 100%, #cccccc, transparent);
+}
+
+[data-theme="light"] .activity-message {
+  color: var(--color-text-dark);
+}
+
+/* Dark theme */
+[data-theme="dark"] .dashboard-activity-card {
+  background: linear-gradient(0deg, var(--bg-dark-start), var(--bg-dark-end));
+  box-shadow: 
+    inset 0 0 0 1px var(--border-color-secondary-dark),
+    var(--shadow-dark);
+}
+
+[data-theme="dark"] .dashboard-activity-card::before {
+  background: radial-gradient(farthest-side at 50% 100%, rgba(255, 255, 255, 0.1), transparent);
+}
+
+[data-theme="dark"] .dashboard-activity-title {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-activity-card {
+    padding: var(--spacing-lg);
+  }
+}
+

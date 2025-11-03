@@ -7,6 +7,9 @@ export * from './sections';
 // Button components
 export * from './buttons';
 
+// Dashboard components
+export * from './dashboard';
+
 // Theme components
 export * from './theme';
 
