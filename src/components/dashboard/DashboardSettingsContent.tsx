@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { useDashboard } from './DashboardContext';
-import { Settings, Info, AlertCircle } from 'lucide-react';
+import { Info, AlertCircle } from 'lucide-react';
 import './DashboardContent.css';
 
-export function DashboardContent() {
+export function DashboardSettingsContent() {
   const { isMobile, isCollapsed } = useDashboard();
 
   return (
@@ -120,3 +120,4 @@ export function DashboardContent() {
     </main>
   );
 }
+

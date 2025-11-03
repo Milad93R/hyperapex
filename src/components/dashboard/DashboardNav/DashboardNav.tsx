@@ -1,9 +1,13 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, LogOut } from 'lucide-react';
+import { 
+  LayoutDashboard, 
+  Settings,
+  LogOut
+} from 'lucide-react';
 import { SITE_CONFIG } from '@/config/constants';
 import { ClientThemeToggle } from '@/components/theme';
 import { useDashboard } from '../DashboardContext';
@@ -14,6 +18,7 @@ export function DashboardNav() {
   const { isMenuOpen, isMobile, isCollapsed, closeMenu } = useDashboard();
   const { signOut, user } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const navRef = useRef<HTMLElement | null>(null);
 
   const handleSignOut = async () => {
@@ -46,8 +51,12 @@ export function DashboardNav() {
     };
   }, [isMenuOpen, isMobile, closeMenu]);
 
-  const navLinks = [
+  const mainNavLinks = [
     { href: '/dashboard', label: 'Overview', icon: LayoutDashboard },
+  ];
+
+  const settingsLinks = [
+    { href: '/dashboard/settings', label: 'Settings', icon: Settings },
   ];
 
   return (
@@ -74,21 +83,45 @@ export function DashboardNav() {
           </div>
           
           <nav className="dashboard-sidebar-nav">
-            <div className="dashboard-sidebar-links">
-              {navLinks.map((link) => {
-                const Icon = link.icon;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="dashboard-sidebar-link"
-                    onClick={closeMenu}
-                  >
-                    {Icon && <Icon className="dashboard-sidebar-link-icon" />}
-                    <span className="dashboard-sidebar-link-text">{link.label}</span>
-                  </Link>
-                );
-              })}
+            <div className="dashboard-sidebar-section">
+              <div className="dashboard-sidebar-links">
+                {mainNavLinks.map((link, index) => {
+                  const Icon = link.icon;
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={`${link.href}-${link.label}-${index}`}
+                      href={link.href}
+                      className={`dashboard-sidebar-link ${isActive ? 'active' : ''}`}
+                      onClick={closeMenu}
+                    >
+                      {Icon && <Icon className="dashboard-sidebar-link-icon" />}
+                      <span className="dashboard-sidebar-link-text">{link.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="dashboard-sidebar-section">
+              <div className="dashboard-sidebar-section-title">Settings</div>
+              <div className="dashboard-sidebar-links">
+                {settingsLinks.map((link) => {
+                  const Icon = link.icon;
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`dashboard-sidebar-link ${isActive ? 'active' : ''}`}
+                      onClick={closeMenu}
+                    >
+                      {Icon && <Icon className="dashboard-sidebar-link-icon" />}
+                      <span className="dashboard-sidebar-link-text">{link.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           </nav>
 
@@ -104,11 +137,33 @@ export function DashboardNav() {
                 <span className="dashboard-sidebar-logout-text">Sign Out</span>
               </button>
             )}
-            <ClientThemeToggle />
+            <div 
+              className="dashboard-sidebar-theme-toggle-wrapper"
+              onClick={() => {
+                const themeToggle = document.querySelector('.theme-toggle') as HTMLButtonElement;
+                if (themeToggle) {
+                  themeToggle.click();
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Toggle theme"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  const themeToggle = document.querySelector('.theme-toggle') as HTMLButtonElement;
+                  if (themeToggle) {
+                    themeToggle.click();
+                  }
+                }
+              }}
+            >
+              <ClientThemeToggle />
+              <span className="dashboard-sidebar-theme-toggle-label">Theme</span>
+            </div>
           </div>
         </div>
       </aside>
     </>
   );
 }
-

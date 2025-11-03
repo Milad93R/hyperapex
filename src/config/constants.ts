@@ -22,23 +22,29 @@ export const HERO_CONTENT: HeroContent = {
  * Allowed email addresses for dashboard access
  * Only users with these email addresses can access the dashboard
  * If empty array, all authenticated users can access the dashboard
- * Reads from environment variable: ALLOWED_DASHBOARD_EMAILS (comma-separated)
+ * Reads from environment variable: NEXT_PUBLIC_ALLOWED_DASHBOARD_EMAILS (comma-separated)
  */
 export const getAllowedDashboardEmails = (): string[] => {
-  const envEmails = process.env.NEXT_PUBLIC_ALLOWED_DASHBOARD_EMAILS;
-  
-  if (!envEmails || envEmails.trim() === '') {
-    return []; // Empty array means all emails are allowed
+  try {
+    const envEmails = process.env.NEXT_PUBLIC_ALLOWED_DASHBOARD_EMAILS;
+    
+    if (!envEmails || typeof envEmails !== 'string' || envEmails.trim() === '') {
+      return []; // Empty array means all emails are allowed
+    }
+    
+    // Split by comma and filter out empty strings
+    return envEmails
+      .split(',')
+      .map(email => email.trim())
+      .filter(email => email.length > 0);
+  } catch (error) {
+    console.warn('Error parsing allowed dashboard emails:', error);
+    return []; // Default to allowing all emails if there's an error
   }
-  
-  // Split by comma and filter out empty strings
-  return envEmails
-    .split(',')
-    .map(email => email.trim())
-    .filter(email => email.length > 0);
 };
 
-export const ALLOWED_DASHBOARD_EMAILS: string[] = getAllowedDashboardEmails();
+// Ensure this is always an array, even if the function fails
+export const ALLOWED_DASHBOARD_EMAILS: string[] = getAllowedDashboardEmails() || [];
 
 export const TYPEWRITER_CONFIG = {
   headingSpeed: 100,

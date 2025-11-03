@@ -25,15 +25,18 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
       return;
     }
 
+    // Safety check: ensure ALLOWED_DASHBOARD_EMAILS is an array
+    const allowedEmails = Array.isArray(ALLOWED_DASHBOARD_EMAILS) ? ALLOWED_DASHBOARD_EMAILS : [];
+
     // If allowed emails list is empty, all users are allowed
-    if (ALLOWED_DASHBOARD_EMAILS.length === 0) {
+    if (allowedEmails.length === 0) {
       setIsAuthorized(true);
       return;
     }
 
     // Check if user's email is in the allowed list
     const userEmail = user.email?.toLowerCase();
-    const isEmailAllowed = userEmail && ALLOWED_DASHBOARD_EMAILS.some(
+    const isEmailAllowed = userEmail && allowedEmails.some(
       allowedEmail => allowedEmail.toLowerCase() === userEmail
     );
 

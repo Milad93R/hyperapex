@@ -1,6 +1,128 @@
-/* Shared Dashboard Card Theme Styles */
-/* Consolidates duplicate theme styles across dashboard cards */
+/* Shared Dashboard Styles */
+/* Consolidates duplicate styles across all dashboard components */
 
+/* ========================================
+   PART 1: Common Color Variables
+   ======================================== */
+:root {
+  --dashboard-bg-dark: #0f0f0f;
+  --dashboard-bg-card-dark: #1f1f1f;
+  --dashboard-border-dark: #2e2e2e;
+  --dashboard-border-dark-hover: #3e3e3e;
+  --dashboard-text-primary: #ffffff;
+  --dashboard-text-secondary: #8b8b8b;
+  --dashboard-text-muted: #e5e5e5;
+  --dashboard-text-muted-dark: #d4d4d4;
+  --dashboard-text-muted-darker: #b3b3b3;
+  
+  --dashboard-bg-light: #ffffff;
+  --dashboard-bg-card-light: #ffffff;
+  --dashboard-border-light: #e5e5e5;
+  --dashboard-bg-hover-light: #f0f0f0;
+  --dashboard-bg-hover-light-alt: #f5f5f5;
+  --dashboard-text-primary-light: #1f1f1f;
+  --dashboard-text-secondary-light: #8b8b8b;
+}
+
+/* ========================================
+   PART 2: Common Button Base Styles
+   ======================================== */
+.dashboard-button-base {
+  padding: 10px 12px;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dashboard-button-base:hover {
+  background: var(--dashboard-border-dark);
+  color: var(--dashboard-text-primary);
+}
+
+[data-theme="light"] .dashboard-button-base:hover {
+  background: var(--dashboard-bg-hover-light);
+  color: var(--dashboard-text-primary-light);
+}
+
+.dashboard-icon-button-base {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dashboard-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.dashboard-icon-button-base:hover {
+  background: var(--dashboard-border-dark);
+  color: var(--dashboard-text-primary);
+}
+
+[data-theme="light"] .dashboard-icon-button-base:hover {
+  background: var(--dashboard-bg-hover-light);
+  color: var(--dashboard-text-primary-light);
+}
+
+/* ========================================
+   PART 3: Common Border Styles
+   ======================================== */
+.dashboard-border-bottom {
+  border-bottom: 1px solid var(--dashboard-border-dark);
+}
+
+[data-theme="light"] .dashboard-border-bottom {
+  border-bottom-color: var(--dashboard-border-light);
+}
+
+.dashboard-border-top {
+  border-top: 1px solid var(--dashboard-border-dark);
+}
+
+[data-theme="light"] .dashboard-border-top {
+  border-top-color: var(--dashboard-border-light);
+}
+
+/* ========================================
+   PART 4: Common Background Styles
+   ======================================== */
+.dashboard-bg-dark {
+  background: var(--dashboard-bg-card-dark);
+  border: 1px solid var(--dashboard-border-dark);
+}
+
+[data-theme="light"] .dashboard-bg-dark {
+  background: var(--dashboard-bg-card-light);
+  border-color: var(--dashboard-border-light);
+}
+
+/* ========================================
+   PART 5: Common Text Styles
+   ======================================== */
+.dashboard-text-primary {
+  color: var(--dashboard-text-primary);
+}
+
+[data-theme="light"] .dashboard-text-primary {
+  color: var(--dashboard-text-primary-light);
+}
+
+.dashboard-text-secondary {
+  color: var(--dashboard-text-secondary);
+}
+
+/* ========================================
+   PART 6: Common Card Theme Styles
+   ======================================== */
 /* Light theme - shared across all dashboard cards */
 [data-theme="light"] .dashboard-metrics-card,
 [data-theme="light"] .dashboard-activity-card,
@@ -36,4 +158,3 @@
 [data-theme="dark"] .stat-card::before {
   background: radial-gradient(farthest-side at 50% 100%, rgba(255, 255, 255, 0.1), transparent);
 }
-

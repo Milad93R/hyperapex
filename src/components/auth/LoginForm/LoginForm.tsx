@@ -137,7 +137,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignUp }) => {
               className="auth-input"
               placeholder="you@example.com"
               required
-              style={{ position: 'relative', zIndex: 2, background: 'transparent', border: 'none' }}
             />
           </div>
 
@@ -154,7 +153,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignUp }) => {
               className="auth-input"
               placeholder="••••••••"
               required
-              style={{ position: 'relative', zIndex: 2, background: 'transparent', border: 'none' }}
             />
           </div>
 
@@ -169,13 +167,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignUp }) => {
           </div>
 
           {successMessage && (
-            <div className="auth-success" style={{ color: '#10b981', marginBottom: '1rem', fontSize: '0.875rem' }}>
+            <div className="auth-success">
               {successMessage}
             </div>
           )}
 
           {error && (
-            <div className="auth-error" style={{ color: '#ef4444', marginBottom: '1rem', fontSize: '0.875rem' }}>
+            <div className="auth-error">
               {error}
             </div>
           )}

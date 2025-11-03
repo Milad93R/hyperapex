@@ -150,15 +150,15 @@
 }
 
 [data-theme="dark"] .recent-item-title {
-  color: #e5e5e5;
+  color: var(--dashboard-text-muted);
 }
 
 [data-theme="dark"] .recent-item-description {
-  color: #d4d4d4;
+  color: var(--dashboard-text-muted-dark);
 }
 
 [data-theme="dark"] .recent-item-date {
-  color: #b3b3b3;
+  color: var(--dashboard-text-muted-darker);
 }
 
 /* Responsive */

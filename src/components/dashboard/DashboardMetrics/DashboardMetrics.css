@@ -180,11 +180,11 @@
 }
 
 [data-theme="dark"] .dashboard-metrics-period {
-  color: #d4d4d4;
+  color: var(--dashboard-text-muted-dark);
 }
 
 [data-theme="dark"] .metrics-summary-label {
-  color: #d4d4d4;
+  color: var(--dashboard-text-muted-dark);
 }
 
 /* Responsive */
