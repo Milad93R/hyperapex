@@ -10,6 +10,7 @@ interface AuthContextType {
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
   signUp: (email: string, password: string, name?: string) => Promise<{ error: AuthError | null }>;
+  signInWithGoogle: () => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: AuthError | null }>;
 }
@@ -68,6 +69,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut();
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) {
+        // Provide helpful error messages for common issues
+        if (error.message?.includes('not enabled') || 
+            error.message?.includes('Unsupported provider') ||
+            error.message?.includes('provider is not enabled')) {
+          return {
+            error: {
+              ...error,
+              message: 'Google OAuth is not enabled. Please enable it in your Supabase dashboard: Authentication > Providers > Google. See docs/GOOGLE_OAUTH_SETUP.md for detailed instructions.',
+            } as AuthError,
+          };
+        }
+        return { error };
+      }
+
+      // Success - OAuth will redirect automatically
+      return { error: null };
+    } catch (err) {
+      return {
+        error: {
+          message: 'Failed to initiate Google sign-in. Please ensure Google OAuth is configured in your Supabase dashboard. See docs/GOOGLE_OAUTH_SETUP.md for setup instructions.',
+        } as AuthError,
+      };
+    }
+  };
+
   const resetPassword = async (email: string) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth/reset-password`,
@@ -83,6 +119,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         loading,
         signIn,
         signUp,
+        signInWithGoogle,
         signOut,
         resetPassword,
       }}

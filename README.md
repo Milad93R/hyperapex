@@ -9,7 +9,7 @@ A modern full-stack application built with Next.js 15, featuring modular archite
 - **UI Components**: ShadCN UI with custom CSS styling
 - **Dashboard**: Comprehensive dashboard with stats, metrics, activity feed, and recent projects
 - **Responsive Design**: Mobile-first design with hamburger menu for screens < 768px
-- **Authentication**: API key authentication, Swagger UI basic auth, Debug secret headers
+- **Authentication**: Email/password authentication with Supabase, Google OAuth, API key authentication, Swagger UI basic auth, Debug secret headers
 - **API Documentation**: Interactive Swagger UI with OpenAPI 3.0 specification
 - **Monitoring**: Request monitoring, debug logging, global error handling
 - **Calculations**: Modular calculation service supporting arithmetic, factorial, fibonacci, primes, statistics, and more
@@ -294,6 +294,28 @@ Make sure all required environment variables are set in Vercel:
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anon/public key (optional, for client-side)
 
 See `.env.example` for all available options.
+
+### Google OAuth Setup
+
+To enable Google OAuth authentication, follow the detailed guide:
+
+📖 **See [docs/GOOGLE_OAUTH_SETUP.md](docs/GOOGLE_OAUTH_SETUP.md) for complete step-by-step instructions**
+
+**Quick Steps:**
+
+1. **Create Google OAuth Credentials** in [Google Cloud Console](https://console.cloud.google.com/)
+   - Create OAuth 2.0 Client ID for "Web application"
+   - Add redirect URI: `https://[your-project-ref].supabase.co/auth/v1/callback`
+
+2. **Enable Google Provider in Supabase**
+   - Go to Supabase Dashboard > Authentication > Providers
+   - Toggle "Google" to **Enabled**
+   - Enter your Client ID and Client Secret
+   - Save settings
+
+3. **Test**: Click "Continue with Google" on login/signup pages
+
+**If you see "provider is not enabled" error:** Follow the detailed guide in `docs/GOOGLE_OAUTH_SETUP.md` for troubleshooting.
 
 ## 🤝 Contributing
 
