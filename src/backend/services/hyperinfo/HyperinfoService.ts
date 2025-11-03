@@ -7,7 +7,7 @@
 
 const HYPERLIQUID_API_BASE_URL = 'https://api.hyperliquid.xyz/info'
 
-export interface UserNonFundingLedgerUpdatesParams {
+export interface UserNonFundingLedgerUpdatesParams extends Record<string, unknown> {
   type: 'userNonFundingLedgerUpdates'
   user: string // Ethereum address
   startTime: number // Unix timestamp in milliseconds
