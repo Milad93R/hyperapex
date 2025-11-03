@@ -15,6 +15,7 @@ import { HyperinfoService } from '@/backend/services/hyperinfo'
  * 
  * Supported request types:
  * - userNonFundingLedgerUpdates: Get user ledger updates
+ * - userFillsByTime: Get user fills by time
  * - custom: Any other Hyperliquid API call
  */
 export const POST = createAuthenticatedHandler(
@@ -26,9 +27,9 @@ export const POST = createAuthenticatedHandler(
       try {
         // Validate request body
         const validation = await validateRequestBody<{
-          type: 'userNonFundingLedgerUpdates' | 'custom'
-          user?: string // Required for userNonFundingLedgerUpdates
-          startTime?: number // Required for userNonFundingLedgerUpdates
+          type: 'userNonFundingLedgerUpdates' | 'userFillsByTime' | 'custom'
+          user?: string // Required for userNonFundingLedgerUpdates and userFillsByTime
+          startTime?: number // Required for userNonFundingLedgerUpdates and userFillsByTime
           payload?: Record<string, unknown> // For custom type
         }>(request)
 
@@ -56,6 +57,17 @@ export const POST = createAuthenticatedHandler(
             )
           }
           result = await HyperinfoService.getUserNonFundingLedgerUpdates(
+            params.user,
+            params.startTime
+          )
+        } else if (type === 'userFillsByTime') {
+          if (!params.user || params.startTime === undefined) {
+            return NextResponse.json(
+              { error: 'Missing required parameters: user, startTime' },
+              { status: 400 }
+            )
+          }
+          result = await HyperinfoService.getUserFillsByTime(
             params.user,
             params.startTime
           )

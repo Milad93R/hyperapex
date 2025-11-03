@@ -13,6 +13,12 @@ export interface UserNonFundingLedgerUpdatesParams extends Record<string, unknow
   startTime: number // Unix timestamp in milliseconds
 }
 
+export interface UserFillsByTimeParams extends Record<string, unknown> {
+  type: 'userFillsByTime'
+  user: string // Ethereum address
+  startTime: number // Unix timestamp in milliseconds
+}
+
 export interface HyperliquidApiResponse<T = unknown> {
   success: boolean
   data?: T
@@ -71,12 +77,43 @@ export class HyperinfoService {
     }
 
     // Validate timestamp
-    if (!Number.isInteger(startTime) || startTime <= 0) {
-      throw new Error('Invalid startTime: must be a positive integer (Unix timestamp in milliseconds)')
+    if (!Number.isInteger(startTime) || startTime < 1) {
+      throw new Error('Invalid startTime: must be an integer >= 1 (Unix timestamp in milliseconds)')
     }
 
     const payload: UserNonFundingLedgerUpdatesParams = {
       type: 'userNonFundingLedgerUpdates',
+      user,
+      startTime,
+    }
+
+    return this.callHyperliquidApi(payload)
+  }
+
+  /**
+   * Get user fills by time
+   * Fetches fill data for a specific user starting from a given timestamp
+   * 
+   * @param user - Ethereum address of the user
+   * @param startTime - Unix timestamp in milliseconds to start from
+   * @returns Fill data
+   */
+  static async getUserFillsByTime(
+    user: string,
+    startTime: number
+  ): Promise<unknown> {
+    // Validate Ethereum address format (basic check)
+    if (!user || !user.match(/^0x[a-fA-F0-9]{40}$/)) {
+      throw new Error('Invalid Ethereum address format')
+    }
+
+    // Validate timestamp
+    if (!Number.isInteger(startTime) || startTime < 1) {
+      throw new Error('Invalid startTime: must be an integer >= 1 (Unix timestamp in milliseconds)')
+    }
+
+    const payload: UserFillsByTimeParams = {
+      type: 'userFillsByTime',
       user,
       startTime,
     }

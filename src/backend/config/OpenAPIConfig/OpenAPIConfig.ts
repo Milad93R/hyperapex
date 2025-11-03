@@ -325,7 +325,7 @@ export function getOpenAPISpec(baseUrl?: string) {
             },
             startTime: {
               type: 'integer',
-              description: 'Unix timestamp in milliseconds to start from (required for userNonFundingLedgerUpdates)',
+              description: 'Unix timestamp in milliseconds to start from (required for userNonFundingLedgerUpdates and userFillsByTime)',
               minimum: 1,
             },
             payload: {
@@ -1152,6 +1152,15 @@ export function getOpenAPISpec(baseUrl?: string) {
                     description: 'Get ledger updates for a user starting from a specific timestamp',
                     value: {
                       type: 'userNonFundingLedgerUpdates',
+                      user: '0xA13CF65c9fb9AFfFA991E8b371C5EE122F8ba537',
+                      startTime: 1672531200000,
+                    },
+                  },
+                  userFillsByTime: {
+                    summary: 'User fills by time',
+                    description: 'Get fill data for a user starting from a specific timestamp',
+                    value: {
+                      type: 'userFillsByTime',
                       user: '0xA13CF65c9fb9AFfFA991E8b371C5EE122F8ba537',
                       startTime: 1672531200000,
                     },
