@@ -1,16 +1,26 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard } from 'lucide-react';
+import { LayoutDashboard, LogOut } from 'lucide-react';
 import { SITE_CONFIG } from '@/config/constants';
 import { ClientThemeToggle } from '@/components/theme';
 import { useDashboard } from '../DashboardContext';
+import { useAuth } from '@/contexts/AuthContext';
 import './DashboardNav.css';
 
 export function DashboardNav() {
   const { isMenuOpen, isMobile, isCollapsed, closeMenu } = useDashboard();
+  const { signOut, user } = useAuth();
+  const router = useRouter();
   const navRef = useRef<HTMLElement | null>(null);
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/login');
+    router.refresh();
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -83,6 +93,17 @@ export function DashboardNav() {
           </nav>
 
           <div className="dashboard-sidebar-footer">
+            {user && (
+              <button
+                onClick={handleSignOut}
+                className="dashboard-sidebar-logout"
+                aria-label="Sign out"
+                type="button"
+              >
+                <LogOut className="dashboard-sidebar-logout-icon" />
+                <span className="dashboard-sidebar-logout-text">Sign Out</span>
+              </button>
+            )}
             <ClientThemeToggle />
           </div>
         </div>
