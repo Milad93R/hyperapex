@@ -107,7 +107,7 @@
   transition: all var(--transition-fast);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 8px; 
 }
 
 .dashboard-button-primary {

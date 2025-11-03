@@ -59,6 +59,9 @@ hyperapex/
 │   │   └── ui/             # ShadCN UI primitives (Button, Card, Input)
 │   ├── lib/                 # Utility functions
 │   └── styles/              # Custom CSS files
+├── scripts/                # Deployment and utility scripts
+│   ├── deploy.sh           # Vercel deployment script
+│   └── sync-env-to-vercel.sh # Environment variable sync script
 ├── docker-compose.yml       # Docker Compose configuration
 ├── Dockerfile.frontend      # Frontend Docker configuration
 ├── Dockerfile.backend       # Backend Docker configuration
@@ -129,12 +132,12 @@ npm run start            # Start Next.js in production mode
 npm run lint             # Run ESLint
 
 # Deployment
-./deploy.sh              # Deploy to Vercel (production)
-./deploy.sh --preview    # Deploy to Vercel (preview)
-./deploy.sh --token TOKEN # Deploy with custom token
+./scripts/deploy.sh              # Deploy to Vercel (production)
+./scripts/deploy.sh --preview    # Deploy to Vercel (preview)
+./scripts/deploy.sh --token TOKEN # Deploy with custom token
 
 # Environment Variables
-./sync-env-to-vercel.sh  # Sync all .env variables to Vercel
+./scripts/sync-env-to-vercel.sh  # Sync all .env variables to Vercel
 ```
 
 ## 🎨 Design System
@@ -249,16 +252,16 @@ Use the deployment script to build and deploy to Vercel:
 
 ```bash
 # Basic deployment (production)
-./deploy.sh
+./scripts/deploy.sh
 
 # With Vercel token
-./deploy.sh --token YOUR_VERCEL_TOKEN
+./scripts/deploy.sh --token YOUR_VERCEL_TOKEN
 
 # Preview deployment (not production)
-./deploy.sh --preview
+./scripts/deploy.sh --preview
 
 # Skip build step
-./deploy.sh --skip-build
+./scripts/deploy.sh --skip-build
 ```
 
 The script will:
