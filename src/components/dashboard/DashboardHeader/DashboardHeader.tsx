@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import { PanelLeft, PanelLeftClose } from 'lucide-react';
-import { HamburgerMenu } from '@/components/ui/HamburgerMenu';
+import { PanelLeft, PanelLeftClose, Menu } from 'lucide-react';
 import { useDashboard } from '../DashboardContext';
 import './DashboardHeader.css';
 
@@ -20,7 +19,7 @@ export function DashboardHeader() {
               aria-label="Toggle sidebar"
               type="button"
             >
-              <HamburgerMenu isOpen={isMenuOpen} onClick={toggleMenu} />
+              <Menu className="dashboard-header-toggle-icon" />
             </button>
           ) : (
             <button 

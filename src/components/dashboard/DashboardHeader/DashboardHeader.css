@@ -96,6 +96,36 @@
     var(--shadow-sm);
 }
 
+.dashboard-header-toggle-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-primary);
+  transition: color var(--transition-fast);
+}
+
+.dashboard-header-toggle:hover .dashboard-header-toggle-icon {
+  color: var(--color-primary);
+}
+
+/* Dark theme for toggle button */
+[data-theme="dark"] .dashboard-header-toggle {
+  background: linear-gradient(0deg, var(--bg-dark-start), var(--bg-dark-end));
+  box-shadow: inset 0 0 0 1px var(--border-color-secondary-dark);
+}
+
+[data-theme="dark"] .dashboard-header-toggle:hover {
+  box-shadow: inset 0 0 0 1px var(--border-color-secondary-dark),
+    var(--shadow-dark);
+}
+
+[data-theme="dark"] .dashboard-header-toggle-icon {
+  color: #e5e5e5;
+}
+
+[data-theme="dark"] .dashboard-header-toggle:hover .dashboard-header-toggle-icon {
+  color: var(--color-secondary);
+}
+
 .dashboard-header-collapse {
   width: 40px;
   height: 40px;

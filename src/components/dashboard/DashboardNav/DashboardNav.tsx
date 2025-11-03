@@ -48,7 +48,7 @@ export function DashboardNav() {
       <aside ref={navRef} className={`dashboard-sidebar ${isMobile && !isMenuOpen ? 'closed' : ''} ${!isMobile && isCollapsed ? 'collapsed' : ''}`}>
         <div className="dashboard-sidebar-content">
           <div className="dashboard-sidebar-header">
-            <Link href="/dashboard" className="dashboard-sidebar-logo" onClick={closeMenu}>
+            <Link href="/" className="dashboard-sidebar-logo" onClick={closeMenu}>
               <span className="dashboard-sidebar-logo-text">{SITE_CONFIG.name}</span>
             </Link>
             {isMobile && (

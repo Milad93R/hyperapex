@@ -1,0 +1,39 @@
+/* Shared Dashboard Card Theme Styles */
+/* Consolidates duplicate theme styles across dashboard cards */
+
+/* Light theme - shared across all dashboard cards */
+[data-theme="light"] .dashboard-metrics-card,
+[data-theme="light"] .dashboard-activity-card,
+[data-theme="light"] .dashboard-recent-card,
+[data-theme="light"] .stat-card {
+  background: linear-gradient(0deg, var(--bg-card-light-start), var(--bg-card-light-end));
+  box-shadow: 
+    inset 0 0 0 1px var(--border-color-light),
+    var(--shadow-md);
+}
+
+[data-theme="light"] .dashboard-metrics-card::before,
+[data-theme="light"] .dashboard-activity-card::before,
+[data-theme="light"] .dashboard-recent-card::before,
+[data-theme="light"] .stat-card::before {
+  background: radial-gradient(farthest-side at 50% 100%, #cccccc, transparent);
+}
+
+/* Dark theme - shared across all dashboard cards */
+[data-theme="dark"] .dashboard-metrics-card,
+[data-theme="dark"] .dashboard-activity-card,
+[data-theme="dark"] .dashboard-recent-card,
+[data-theme="dark"] .stat-card {
+  background: linear-gradient(0deg, var(--bg-dark-start), var(--bg-dark-end));
+  box-shadow: 
+    inset 0 0 0 1px var(--border-color-secondary-dark),
+    var(--shadow-dark);
+}
+
+[data-theme="dark"] .dashboard-metrics-card::before,
+[data-theme="dark"] .dashboard-activity-card::before,
+[data-theme="dark"] .dashboard-recent-card::before,
+[data-theme="dark"] .stat-card::before {
+  background: radial-gradient(farthest-side at 50% 100%, rgba(255, 255, 255, 0.1), transparent);
+}
+

@@ -112,39 +112,27 @@
   opacity: var(--opacity-muted);
 }
 
-/* Light theme */
-[data-theme="light"] .dashboard-activity-card {
-  background: linear-gradient(0deg, var(--bg-card-light-start), var(--bg-card-light-end));
-  box-shadow: 
-    inset 0 0 0 1px var(--border-color-light),
-    var(--shadow-md);
-}
-
-[data-theme="light"] .dashboard-activity-card::before {
-  background: radial-gradient(farthest-side at 50% 100%, #cccccc, transparent);
-}
+/* Light theme - card styles consolidated in shared.css */
 
 [data-theme="light"] .activity-message {
   color: var(--color-text-dark);
 }
 
-/* Dark theme */
-[data-theme="dark"] .dashboard-activity-card {
-  background: linear-gradient(0deg, var(--bg-dark-start), var(--bg-dark-end));
-  box-shadow: 
-    inset 0 0 0 1px var(--border-color-secondary-dark),
-    var(--shadow-dark);
-}
-
-[data-theme="dark"] .dashboard-activity-card::before {
-  background: radial-gradient(farthest-side at 50% 100%, rgba(255, 255, 255, 0.1), transparent);
-}
+/* Dark theme - card styles consolidated in shared.css */
 
 [data-theme="dark"] .dashboard-activity-title {
   background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+[data-theme="dark"] .activity-message {
+  color: #e5e5e5;
+}
+
+[data-theme="dark"] .activity-time {
+  color: #b3b3b3;
 }
 
 /* Responsive */

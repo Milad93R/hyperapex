@@ -1,3 +1,5 @@
+@import '../../components/dashboard/shared.css';
+
 .dashboard-page {
   min-height: 100vh;
   background: linear-gradient(135deg, var(--bg-light-start) 0%, var(--bg-light-end) 100%);
@@ -24,6 +26,7 @@
 .dashboard-container {
   max-width: 1400px;
   margin: 0 auto;
+  padding: 0 var(--spacing-xs);
 }
 
 
@@ -73,11 +76,12 @@
 
 @media (max-width: 480px) {
   .dashboard-main {
+    padding: var(--spacing-md);
     padding-top: calc(60px + 60px + var(--spacing-md));
   }
 
   .dashboard-container {
-    padding: 0 var(--spacing-sm);
+    padding: 0 var(--spacing-xs);
   }
 }
 

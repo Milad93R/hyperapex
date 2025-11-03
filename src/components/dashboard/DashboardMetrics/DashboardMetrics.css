@@ -151,17 +151,7 @@
   -webkit-text-fill-color: #10b981;
 }
 
-/* Light theme */
-[data-theme="light"] .dashboard-metrics-card {
-  background: linear-gradient(0deg, var(--bg-card-light-start), var(--bg-card-light-end));
-  box-shadow: 
-    inset 0 0 0 1px var(--border-color-light),
-    var(--shadow-md);
-}
-
-[data-theme="light"] .dashboard-metrics-card::before {
-  background: radial-gradient(farthest-side at 50% 100%, #cccccc, transparent);
-}
+/* Light theme - card styles consolidated in shared.css */
 
 [data-theme="light"] .metrics-chart-placeholder {
   background: rgba(0, 0, 0, 0.05);
@@ -171,17 +161,7 @@
   border-top-color: var(--border-color-light);
 }
 
-/* Dark theme */
-[data-theme="dark"] .dashboard-metrics-card {
-  background: linear-gradient(0deg, var(--bg-dark-start), var(--bg-dark-end));
-  box-shadow: 
-    inset 0 0 0 1px var(--border-color-secondary-dark),
-    var(--shadow-dark);
-}
-
-[data-theme="dark"] .dashboard-metrics-card::before {
-  background: radial-gradient(farthest-side at 50% 100%, rgba(255, 255, 255, 0.1), transparent);
-}
+/* Dark theme - card styles consolidated in shared.css */
 
 [data-theme="dark"] .metrics-chart-placeholder {
   background: rgba(255, 255, 255, 0.05);
@@ -197,6 +177,14 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+[data-theme="dark"] .dashboard-metrics-period {
+  color: #d4d4d4;
+}
+
+[data-theme="dark"] .metrics-summary-label {
+  color: #d4d4d4;
 }
 
 /* Responsive */
