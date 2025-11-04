@@ -23,7 +23,6 @@ export const metadata: Metadata = {
   title: SITE_CONFIG.title,
   description: SITE_CONFIG.description,
   manifest: '/manifest.json',
-  themeColor: '#10b981',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -36,12 +35,14 @@ export const metadata: Metadata = {
     icon: '/icon-192x192.png',
     apple: '/icon-192x192.png',
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-  },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: '#10b981',
 };
 
 export default function RootLayout({
