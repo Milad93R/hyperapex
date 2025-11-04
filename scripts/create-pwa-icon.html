@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyperapex PWA Icon Generator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: #1f1f1f;
+      padding: 40px;
+      border-radius: 12px;
+      border: 1px solid #2e2e2e;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    h1 {
+      margin-bottom: 10px;
+      color: #10b981;
+    }
+    .subtitle {
+      color: #8b8b8b;
+      margin-bottom: 30px;
+    }
+    .icon-preview {
+      display: flex;
+      gap: 30px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+    .preview-item {
+      text-align: center;
+    }
+    canvas {
+      border: 2px solid #2e2e2e;
+      border-radius: 8px;
+      background: #0f0f0f;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    button {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    button:hover {
+      background: #059669;
+      transform: translateY(-1px);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    .instructions {
+      background: #252525;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+      line-height: 1.8;
+      border-left: 3px solid #10b981;
+    }
+    .instructions h3 {
+      color: #10b981;
+      margin-bottom: 15px;
+    }
+    .instructions ol {
+      margin-left: 20px;
+    }
+    .instructions li {
+      margin: 8px 0;
+    }
+    code {
+      background: #0f0f0f;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      color: #10b981;
+    }
+    .icon-info {
+      font-size: 12px;
+      color: #8b8b8b;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Hyperapex PWA Icon Generator</h1>
+    <p class="subtitle">Generate high-quality icons for your Progressive Web App</p>
+    
+    <div class="icon-preview">
+      <div class="preview-item">
+        <canvas id="icon192" width="192" height="192"></canvas>
+        <p class="icon-info">192×192</p>
+      </div>
+      <div class="preview-item">
+        <canvas id="icon512" width="512" height="512"></canvas>
+        <p class="icon-info">512×512</p>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button onclick="generate192()">Download 192×192 PNG</button>
+      <button onclick="generate512()">Download 512×512 PNG</button>
+      <button onclick="generateBoth()">Download Both</button>
+    </div>
+    
+    <div class="instructions">
+      <h3>📋 Instructions</h3>
+      <ol>
+        <li>Click the download buttons above to save the icons</li>
+        <li>Save the files as:
+          <ul style="margin-top: 8px; margin-left: 20px;">
+            <li><code>icon-192x192.png</code></li>
+            <li><code>icon-512x512.png</code></li>
+          </ul>
+        </li>
+        <li>Place both files in the <code>public/</code> directory of your project</li>
+        <li>Replace the existing icons if they exist</li>
+        <li>Rebuild your application: <code>npm run build</code></li>
+      </ol>
+      <p style="margin-top: 15px; color: #ef4444;">
+        <strong>Note:</strong> The icons will use a clean "H" design with your brand color (#10b981). 
+        You can customize the design by editing this HTML file.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      
+      // Clear canvas
+      ctx.clearRect(0, 0, size, size);
+      
+      // Create gradient background
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#10b981');
+      gradient.addColorStop(1, '#059669');
+      
+      // Draw rounded rectangle background
+      const cornerRadius = size * 0.15;
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(cornerRadius, 0);
+      ctx.lineTo(size - cornerRadius, 0);
+      ctx.quadraticCurveTo(size, 0, size, cornerRadius);
+      ctx.lineTo(size, size - cornerRadius);
+      ctx.quadraticCurveTo(size, size, size - cornerRadius, size);
+      ctx.lineTo(cornerRadius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - cornerRadius);
+      ctx.lineTo(0, cornerRadius);
+      ctx.quadraticCurveTo(0, 0, cornerRadius, 0);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Draw "H" letter with clean, bold design
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `bold ${size * 0.5}px Arial, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('H', size / 2, size / 2);
+      
+      // Add subtle inner shadow effect
+      ctx.shadowBlur = size * 0.05;
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = size * 0.02;
+    }
+    
+    function downloadCanvas(canvas, filename) {
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    }
+    
+    function generate192() {
+      const canvas = document.getElementById('icon192');
+      drawIcon(canvas, 192);
+      downloadCanvas(canvas, 'icon-192x192.png');
+    }
+    
+    function generate512() {
+      const canvas = document.getElementById('icon512');
+      drawIcon(canvas, 512);
+      downloadCanvas(canvas, 'icon-512x512.png');
+    }
+    
+    function generateBoth() {
+      generate192();
+      setTimeout(() => generate512(), 500);
+    }
+    
+    // Initial draw
+    window.addEventListener('load', () => {
+      drawIcon(document.getElementById('icon192'), 192);
+      drawIcon(document.getElementById('icon512'), 512);
+    });
+  </script>
+</body>
+</html>
+

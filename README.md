@@ -158,11 +158,24 @@ This application is configured as a Progressive Web App and can be installed on 
 
 ### Setting Up PWA Icons
 
-1. Generate your app icons (192x192 and 512x512 pixels)
-2. Place them in the `public/` directory:
-   - `public/icon-192x192.png`
-   - `public/icon-512x512.png`
-3. You can use the helper tool at `/icon-placeholder.html` or use an online tool like [RealFaviconGenerator](https://realfavicongenerator.net/)
+1. **Generate icons using the built-in tool:**
+   - Start your development server: `npm run dev`
+   - Visit: `http://localhost:3168/create-pwa-icon.html`
+   - Click "Download Both" to generate crisp, high-quality icons
+   - The icons feature a clean "H" design with your brand color (#10b981)
+
+2. **Or use an online tool:**
+   - Visit [RealFaviconGenerator](https://realfavicongenerator.net/)
+   - Upload your logo or use their design tools
+   - Download the generated icons
+
+3. **Place icons in the `public/` directory:**
+   - `public/icon-192x192.png` (192x192 pixels)
+   - `public/icon-512x512.png` (512x512 pixels)
+
+4. **Rebuild and clear cache:**
+   - Run `npm run build`
+   - Clear browser cache to see the new icons
 
 ### Testing PWA
 
