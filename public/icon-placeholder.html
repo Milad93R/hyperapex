@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWA Icon Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #0f0f0f;
+      color: #ffffff;
+    }
+    .container {
+      background: #1f1f1f;
+      padding: 30px;
+      border-radius: 8px;
+      border: 1px solid #2e2e2e;
+    }
+    canvas {
+      border: 2px solid #2e2e2e;
+      margin: 20px 0;
+      display: block;
+    }
+    button {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 10px 5px;
+    }
+    button:hover {
+      background: #059669;
+    }
+    .instructions {
+      background: #252525;
+      padding: 20px;
+      border-radius: 4px;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PWA Icon Generator</h1>
+    <p>This page helps you generate PWA icons for Hyperapex.</p>
+    
+    <canvas id="iconCanvas" width="512" height="512"></canvas>
+    
+    <div>
+      <button onclick="generate192()">Generate 192x192</button>
+      <button onclick="generate512()">Generate 512x512</button>
+    </div>
+    
+    <div class="instructions">
+      <h3>Instructions:</h3>
+      <ol>
+        <li>Right-click on the generated icon</li>
+        <li>Select "Save image as..."</li>
+        <li>Save as <code>icon-192x192.png</code> or <code>icon-512x512.png</code></li>
+        <li>Place the file in the <code>/public</code> directory</li>
+      </ol>
+      <p><strong>Note:</strong> This is a placeholder icon. Replace it with your actual app logo design.</p>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('iconCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    function drawIcon(size) {
+      // Clear canvas
+      ctx.clearRect(0, 0, size, size);
+      
+      // Background
+      ctx.fillStyle = '#10b981';
+      ctx.fillRect(0, 0, size, size);
+      
+      // Draw "H" letter
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `bold ${size * 0.35}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('H', size / 2, size / 2);
+    }
+    
+    function generate192() {
+      canvas.width = 192;
+      canvas.height = 192;
+      drawIcon(192);
+    }
+    
+    function generate512() {
+      canvas.width = 512;
+      canvas.height = 512;
+      drawIcon(512);
+    }
+    
+    // Initial draw
+    generate512();
+  </script>
+</body>
+</html>
+
