@@ -33,7 +33,7 @@ export const POST = createAuthenticatedHandler(
       try {
         // Validate request body
         const validation = await validateRequestBody<{
-          type: 'basic' | 'factorial' | 'fibonacci' | 'primes' | 'statistics' | 'percentage' | 'compound-interest' | 'expression' | 'sequence' | 'monte-carlo-pi' | 'matrix-multiply' | 'prime-factors' | 'bubble-sort'
+          type: 'basic' | 'factorial' | 'fibonacci' | 'primes' | 'statistics' | 'percentage' | 'compound-interest' | 'expression' | 'sequence' | 'monte-carlo-pi' | 'matrix-multiply' | 'prime-factors' | 'bubble-sort' | 'assetrowscalculate'
           operation?: string
           a?: number
           b?: number
@@ -53,6 +53,19 @@ export const POST = createAuthenticatedHandler(
           iterations?: number
           matrixA?: number[][]
           matrixB?: number[][]
+          fills?: Array<{
+            coin: string
+            closedPnl: string | number
+            dir: string
+            sz: string | number
+            side: 'A' | 'B'
+            startPosition: string | number
+            px?: string | number
+            fee?: string | number
+          }>
+          count?: number
+          currentPrices?: Record<string, number>
+          priceTimestamps?: Record<string, number>
         }>(request)
 
         if (validation.error) {
@@ -220,6 +233,28 @@ export const POST = createAuthenticatedHandler(
             break
           }
 
+          case 'assetrowscalculate': {
+            if (!params.fills || !Array.isArray(params.fills) || params.fills.length === 0) {
+              return NextResponse.json(
+                { error: 'Missing required parameter: fills (non-empty array)' },
+                { status: 400 }
+              )
+            }
+            if (params.count === undefined || !Number.isInteger(params.count) || params.count < 1) {
+              return NextResponse.json(
+                { error: 'Missing or invalid required parameter: count (must be a positive integer)' },
+                { status: 400 }
+              )
+            }
+            result = CalculationService.assetRowsCalculate(
+              params.fills,
+              params.count,
+              params.currentPrices,
+              params.priceTimestamps
+            )
+            break
+          }
+
           default:
             return NextResponse.json(
               {
@@ -238,6 +273,7 @@ export const POST = createAuthenticatedHandler(
                   'matrix-multiply',
                   'prime-factors',
                   'bubble-sort',
+                  'assetrowscalculate',
                 ],
               },
               { status: 400 }

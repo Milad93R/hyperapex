@@ -419,5 +419,158 @@ export class CalculationService {
 
     return arr
   }
+
+  /**
+   * Calculate asset rows and released PnL from fill data
+   * @param fills Array of fill data objects
+   * @param count Number of items to calculate released PnL from
+   * @param currentPrices Optional: Current prices from Binance for unrealized PnL calculation
+   * @returns Object with released PnL, unrealized PnL, and asset positions
+   */
+  static assetRowsCalculate(
+    fills: Array<{
+      coin: string
+      closedPnl: string | number
+      dir: string
+      sz: string | number
+      side: 'A' | 'B'
+      startPosition: string | number
+      px?: string | number
+      fee?: string | number
+    }>,
+    count: number,
+    currentPrices?: Record<string, number>,
+    priceTimestamps?: Record<string, number>
+  ): {
+    releasedPnl: number
+    unrealizedPnl: number
+    assets: Record<string, { position: number; price: number; value: number; currentPrice?: number; currentPriceTimestamp?: number; unrealizedPnl?: number }>
+    totalAssets: number
+    totalValue: number
+    totalUnrealizedPnl: number
+  } {
+    if (!Array.isArray(fills) || fills.length === 0) {
+      throw new Error('Fills array is required and must not be empty')
+    }
+
+    if (!Number.isInteger(count) || count < 1) {
+      throw new Error('Count must be a positive integer')
+    }
+
+    // Calculate released PnL from first N items (including fees)
+    const firstNItems = fills.slice(0, count)
+    const releasedPnl = firstNItems.reduce((sum, fill) => {
+      const pnl = typeof fill.closedPnl === 'string' ? parseFloat(fill.closedPnl) : fill.closedPnl
+      const fee = fill.fee !== undefined 
+        ? (typeof fill.fee === 'string' ? parseFloat(fill.fee) : fill.fee)
+        : 0
+      // Released PnL = closed PnL - fees
+      return sum + (isNaN(pnl) ? 0 : pnl) - (isNaN(fee) ? 0 : fee)
+    }, 0)
+
+    // Calculate assets after first N items (using count parameter)
+    const firstNItemsForAssets = fills.slice(0, count)
+    const assets: Record<string, number> = {}
+    const prices: Record<string, number> = {} // Track latest price for each coin
+
+    firstNItemsForAssets.forEach((fill) => {
+      const coin = fill.coin
+      const size = typeof fill.sz === 'string' ? parseFloat(fill.sz) : fill.sz
+      const startPos = typeof fill.startPosition === 'string' 
+        ? parseFloat(fill.startPosition) 
+        : fill.startPosition
+      const price = fill.px !== undefined 
+        ? (typeof fill.px === 'string' ? parseFloat(fill.px) : fill.px)
+        : 0
+
+      // Track latest price for this coin
+      if (!isNaN(price) && price > 0) {
+        prices[coin] = price
+      }
+
+      if (!assets[coin]) {
+        // Initialize with startPosition
+        assets[coin] = isNaN(startPos) ? 0 : startPos
+      }
+
+      // Update position based on direction and side
+      if (fill.dir.includes('Open') || fill.dir.includes('Long')) {
+        if (fill.side === 'B') {
+          // Buy/Long
+          assets[coin] += isNaN(size) ? 0 : size
+        } else {
+          // Sell/Short
+          assets[coin] -= isNaN(size) ? 0 : size
+        }
+      } else if (fill.dir.includes('Close')) {
+        // Closing position - adjust based on side
+        if (fill.side === 'A') {
+          // Closing long
+          assets[coin] -= isNaN(size) ? 0 : size
+        } else {
+          // Closing short
+          assets[coin] += isNaN(size) ? 0 : size
+        }
+      } else if (fill.dir.includes('Short') || fill.dir.includes('>')) {
+        // Position switch
+        if (fill.side === 'A') {
+          assets[coin] -= isNaN(size) ? 0 : size
+        } else {
+          assets[coin] += isNaN(size) ? 0 : size
+        }
+      }
+    })
+
+    // Filter out assets with zero or near-zero positions and calculate values
+    const filteredAssets: Record<string, { position: number; price: number; value: number; currentPrice?: number; currentPriceTimestamp?: number; unrealizedPnl?: number }> = {}
+    let totalValue = 0
+    let totalUnrealizedPnl = 0
+
+    Object.entries(assets).forEach(([coin, position]) => {
+      if (Math.abs(position) > 0.0001) {
+        const entryPrice = prices[coin] || 0
+        const value = Math.abs(position) * entryPrice // Use absolute value for total
+        totalValue += value
+
+        const assetData: { position: number; price: number; value: number; currentPrice?: number; currentPriceTimestamp?: number; unrealizedPnl?: number } = {
+          position: parseFloat(position.toFixed(8)),
+          price: parseFloat(entryPrice.toFixed(8)),
+          value: parseFloat(value.toFixed(2)),
+        }
+
+        // Calculate unrealized PnL if current prices are provided
+        if (currentPrices && currentPrices[coin] && currentPrices[coin] > 0) {
+          const currentPrice = currentPrices[coin]
+          assetData.currentPrice = parseFloat(currentPrice.toFixed(8))
+          
+          // Store timestamp if available
+          if (priceTimestamps && priceTimestamps[coin]) {
+            assetData.currentPriceTimestamp = priceTimestamps[coin]
+          }
+          
+          // Unrealized PnL = (current_price - entry_price) * position
+          // For long positions (positive): (current - entry) * position
+          // For short positions (negative): (entry - current) * position
+          const unrealizedPnl = (currentPrice - entryPrice) * position
+          assetData.unrealizedPnl = parseFloat(unrealizedPnl.toFixed(8))
+          totalUnrealizedPnl += unrealizedPnl
+        }
+
+        filteredAssets[coin] = assetData
+      }
+    })
+
+    // Calculate total number of unique assets
+    const totalAssets = Object.keys(filteredAssets).length
+
+    return {
+      releasedPnl: parseFloat(releasedPnl.toFixed(8)),
+      unrealizedPnl: parseFloat(totalUnrealizedPnl.toFixed(8)),
+      assets: filteredAssets,
+      totalAssets,
+      totalValue: parseFloat(totalValue.toFixed(2)),
+      totalUnrealizedPnl: parseFloat(totalUnrealizedPnl.toFixed(8)),
+    }
+  }
 }
 

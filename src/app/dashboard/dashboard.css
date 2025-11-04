@@ -326,6 +326,43 @@
   scrollbar-color: var(--dashboard-border-light) transparent;
 }
 
+/* Asset positions container scrollbar */
+.dashboard-asset-positions-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dashboard-asset-positions-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard-asset-positions-container::-webkit-scrollbar-thumb {
+  background: var(--dashboard-border-dark);
+  border-radius: 4px;
+  transition: background var(--transition-fast);
+}
+
+.dashboard-asset-positions-container::-webkit-scrollbar-thumb:hover {
+  background: var(--dashboard-border-dark-hover);
+}
+
+[data-theme="light"] .dashboard-asset-positions-container::-webkit-scrollbar-thumb {
+  background: var(--dashboard-border-light);
+}
+
+[data-theme="light"] .dashboard-asset-positions-container::-webkit-scrollbar-thumb:hover {
+  background: #d4d4d4;
+}
+
+/* Firefox scrollbar for asset positions */
+.dashboard-asset-positions-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dashboard-border-dark) transparent;
+}
+
+[data-theme="light"] .dashboard-asset-positions-container {
+  scrollbar-color: var(--dashboard-border-light) transparent;
+}
+
 .dashboard-table thead {
   position: sticky;
   top: 0;
